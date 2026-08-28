@@ -5,21 +5,9 @@ using DriverGeek.Core.Services;
 namespace DriverGeek.Services;
 
 /// <summary>
-/// Asks Windows Update what driver updates it has for this machine.
-///
-/// This is the class the whole application is built around, so the mechanism is worth stating
-/// plainly. The Windows Update Agent exposes IUpdateSearcher, whose criteria string supports
-/// Type='Driver' as a first-class filter and, more usefully, BrowseOnly - the flag Windows uses
-/// to mark an update OPTIONAL. An update with BrowseOnly=1 is one Windows has, knows applies to
-/// this machine, and will not offer on the Windows Update page. It sits four clicks deep under
-/// Advanced options, Optional updates. Surfacing those is the point of DriverGeek.
-///
-/// The COM is late-bound on purpose. Adding an interop assembly for WUApiLib would mean either a
-/// third-party package or a generated wrapper in the tree, and this project's rule is that every
-/// package is one a reviewer has to trust. Late binding through IDispatch costs a little
-/// readability and adds no dependency at all.
-///
-/// Nothing here downloads or installs. Search only.
+/// Searches the Windows Update Agent for driver updates. The COM is late-bound through IDispatch
+/// so that no WUApiLib interop assembly or generated wrapper is needed in the tree. Search only:
+/// nothing here downloads or installs.
 /// </summary>
 public sealed class WindowsUpdateDriverService
 {
@@ -57,8 +45,8 @@ public sealed class WindowsUpdateDriverService
                 return found;
             }
 
-            // Online search: ask the service, do not just read the local cache. It is slower and
-            // it is the only way to see updates that have appeared since the last sync.
+            // Online rather than the local cache: slower, but the only way to see updates that
+            // have appeared since the last sync.
             Set(searcher, "Online", true);
 
             var result = Call(searcher, "Search", UpdateCriteria.For(includeOptional));
@@ -117,8 +105,7 @@ public sealed class WindowsUpdateDriverService
             try { browseOnly = Convert.ToBoolean(Get(update, "BrowseOnly") ?? false); }
             catch (InvalidCastException) { }
 
-            // IWindowsDriverUpdate carries the interesting fields. A non-driver update - which
-            // should not appear given the criteria - simply reports none of them.
+            // IWindowsDriverUpdate fields. A non-driver update reports none of them.
             var maker = Get(update, "DriverManufacturer")?.ToString() ?? "";
             var model = Get(update, "DriverModel")?.ToString() ?? "";
             var cls = Get(update, "DriverClass")?.ToString() ?? "";
