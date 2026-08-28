@@ -25,7 +25,6 @@ public sealed class DeviceRowViewModel(ScannedDevice scanned)
 
     public string DriverDate => scanned.Device.DriverDate?.ToString("dd MMM yyyy") ?? "";
 
-    /// <summary>A fact about age, never a warning. See StalenessPolicy.</summary>
     public string AgeNote => StalenessPolicy.AgeNote(scanned.Device.DriverDate, DateTime.Today);
 
     public string StatusText => scanned.Status switch
