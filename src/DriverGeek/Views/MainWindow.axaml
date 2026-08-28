@@ -1,0 +1,109 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:DriverGeek.ViewModels"
+        xmlns:views="using:DriverGeek.Views"
+        x:Class="DriverGeek.Views.MainWindow"
+        x:DataType="vm:ShellViewModel"
+        Title="DriverGeek" Width="1180" Height="940" MinWidth="860" MinHeight="480"
+        WindowStartupLocation="CenterScreen"
+        FontFamily="{StaticResource UiFont}" FontSize="13.5"
+        Background="{StaticResource Navy}">
+
+  <Window.Styles>
+    <Style Selector="TextBlock">
+      <Setter Property="Foreground" Value="{StaticResource Txt}" />
+    </Style>
+    <Style Selector="Button.nav">
+      <Setter Property="HorizontalAlignment" Value="Stretch" />
+      <Setter Property="HorizontalContentAlignment" Value="Left" />
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="CornerRadius" Value="7" />
+      <Setter Property="Padding" Value="10,9" />
+      <Setter Property="Foreground" Value="{StaticResource Txt2}" />
+    </Style>
+    <Style Selector="Button.nav:pointerover /template/ ContentPresenter">
+      <Setter Property="Background" Value="{StaticResource PanelHover}" />
+    </Style>
+    <Style Selector="Button.nav.on /template/ ContentPresenter">
+      <Setter Property="Background" Value="{StaticResource Selected}" />
+    </Style>
+    <Style Selector="Button.nav.on">
+      <Setter Property="Foreground" Value="{StaticResource Txt}" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+    </Style>
+  </Window.Styles>
+
+  <Grid ColumnDefinitions="212,*">
+
+    <!-- Sidebar -->
+    <Border Grid.Column="0" Background="{StaticResource Chrome}"
+            BorderBrush="{StaticResource Line}" BorderThickness="0,0,1,0">
+      <DockPanel Margin="12,16">
+
+        <StackPanel DockPanel.Dock="Top" Spacing="14">
+          <StackPanel Orientation="Horizontal" Spacing="10" Margin="4,2">
+            <Image Source="avares://DriverGeek/Assets/drivergeek.png" Width="38" Height="38" />
+            <StackPanel VerticalAlignment="Center">
+              <TextBlock Text="{Binding BrandName}" FontSize="17" FontWeight="Bold" />
+              <TextBlock Text="{Binding BrandBy}" FontSize="11" Foreground="{StaticResource Txt3}" />
+            </StackPanel>
+          </StackPanel>
+
+          <StackPanel Spacing="2">
+            <Button Classes="nav" Classes.on="{Binding IsDrivers}" Command="{Binding ShowDrivers}" Content="Drivers" />
+            <Button Classes="nav" Classes.on="{Binding IsUpdates}" Command="{Binding ShowUpdates}" Content="Updates" />
+            <Button Classes="nav" Classes.on="{Binding IsSettings}" Command="{Binding ShowSettings}" Content="Settings" />
+          </StackPanel>
+        </StackPanel>
+
+        <StackPanel DockPanel.Dock="Bottom" Spacing="10">
+          <Border Background="{StaticResource Panel}" BorderBrush="{StaticResource Line}"
+                  BorderThickness="1" CornerRadius="7" Padding="12,11">
+            <TextBlock Text="{Binding NetworkPromise}" FontSize="12" TextWrapping="Wrap"
+                       Foreground="{StaticResource Txt2}" />
+          </Border>
+          <TextBlock Text="{Binding VersionText}" FontSize="11" Margin="4,0"
+                     Foreground="{StaticResource Txt4}" />
+        </StackPanel>
+
+        <Panel />
+      </DockPanel>
+    </Border>
+
+    <!-- Content -->
+    <DockPanel Grid.Column="1">
+      <Border DockPanel.Dock="Top" BorderBrush="{StaticResource LineSoft}" BorderThickness="0,0,0,1"
+              Padding="26,26,26,15">
+        <Grid ColumnDefinitions="*,Auto">
+          <StackPanel>
+            <TextBlock Text="{Binding Page}" FontSize="21" FontWeight="SemiBold" />
+            <TextBlock Text="{Binding StatusLine}" FontSize="12.5" Margin="0,4,0,0"
+                       Foreground="{StaticResource Txt3}" TextWrapping="Wrap" />
+          </StackPanel>
+          <Button Grid.Column="1" Command="{Binding ScanCommand}" VerticalAlignment="Center"
+                  Background="{StaticResource Blue}" Foreground="{StaticResource Txt}"
+                  BorderThickness="0" CornerRadius="7" Padding="15,8" FontSize="13"
+                  Content="Scan" />
+        </Grid>
+      </Border>
+
+      <Panel>
+        <views:DriversView IsVisible="{Binding IsDrivers}" />
+        <views:UpdatesView IsVisible="{Binding IsUpdates}" />
+        <!--
+             Settings has its own view model, so it is hosted rather than nested: setting
+             DataContext on the view itself would also rebind IsVisible, which the compiled-binding
+             checker catches at build time.
+        -->
+        <ContentControl IsVisible="{Binding IsSettings}" Content="{Binding Settings}">
+          <ContentControl.ContentTemplate>
+            <DataTemplate x:DataType="vm:SettingsViewModel">
+              <views:SettingsView />
+            </DataTemplate>
+          </ContentControl.ContentTemplate>
+        </ContentControl>
+      </Panel>
+    </DockPanel>
+  </Grid>
+</Window>

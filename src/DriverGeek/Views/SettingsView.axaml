@@ -1,0 +1,101 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:DriverGeek.ViewModels"
+             x:Class="DriverGeek.Views.SettingsView"
+             x:DataType="vm:SettingsViewModel">
+  <ScrollViewer Padding="26,20">
+    <StackPanel Spacing="16">
+
+      <Border Background="{StaticResource Panel}" BorderBrush="{StaticResource Line}"
+              BorderThickness="1" CornerRadius="7">
+        <StackPanel>
+          <Border BorderBrush="{StaticResource Line}" BorderThickness="0,0,0,1" Padding="17,13">
+            <TextBlock Text="Scanning" FontWeight="SemiBold" />
+          </Border>
+
+          <Border BorderBrush="{StaticResource LineSoft}" BorderThickness="0,0,0,1" Padding="17,14">
+            <Grid ColumnDefinitions="*,Auto">
+              <StackPanel MaxWidth="560" HorizontalAlignment="Left">
+                <TextBlock Text="Scan on a schedule" FontWeight="SemiBold" />
+                <TextBlock FontSize="12" Margin="0,3,0,0" TextWrapping="Wrap"
+                           Foreground="{StaticResource Txt3}" Text="{Binding SchedulePreview}" />
+              </StackPanel>
+              <ComboBox Grid.Column="1" MinWidth="190" VerticalAlignment="Center"
+                        ItemsSource="{Binding ScheduleOptions}"
+                        SelectedItem="{Binding ScanSchedule}" />
+            </Grid>
+          </Border>
+
+          <Border BorderBrush="{StaticResource LineSoft}" BorderThickness="0,0,0,1" Padding="17,14">
+            <Grid ColumnDefinitions="*,Auto">
+              <StackPanel MaxWidth="560" HorizontalAlignment="Left">
+                <TextBlock Text="Include optional updates" FontWeight="SemiBold" />
+                <TextBlock FontSize="12" Margin="0,3,0,0" TextWrapping="Wrap"
+                           Foreground="{StaticResource Txt3}"
+                           Text="The ones Windows files under Optional and never offers you. This is most of the point of the app." />
+              </StackPanel>
+              <ToggleSwitch Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding IncludeOptionalUpdates}" />
+            </Grid>
+          </Border>
+
+          <Border BorderBrush="{StaticResource LineSoft}" BorderThickness="0,0,0,1" Padding="17,14">
+            <Grid ColumnDefinitions="*,Auto">
+              <StackPanel MaxWidth="560" HorizontalAlignment="Left">
+                <TextBlock Text="Notify me when updates are found" FontWeight="SemiBold" />
+                <TextBlock FontSize="12" Margin="0,3,0,0" TextWrapping="Wrap"
+                           Foreground="{StaticResource Txt3}"
+                           Text="A Windows notification with the count, after a scheduled scan." />
+              </StackPanel>
+              <ToggleSwitch Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding NotifyOnUpdates}" />
+            </Grid>
+          </Border>
+
+          <Border Padding="17,14">
+            <Grid ColumnDefinitions="*,Auto">
+              <StackPanel MaxWidth="560" HorizontalAlignment="Left">
+                <TextBlock Text="Include devices that are not plugged in" FontWeight="SemiBold" />
+                <TextBlock FontSize="12" Margin="0,3,0,0" TextWrapping="Wrap"
+                           Foreground="{StaticResource Txt3}"
+                           Text="Windows remembers drivers for hardware you have removed. Off by default, because it makes the list long and mostly irrelevant." />
+              </StackPanel>
+              <ToggleSwitch Grid.Column="1" VerticalAlignment="Center" IsChecked="{Binding IncludeAbsentDevices}" />
+            </Grid>
+          </Border>
+        </StackPanel>
+      </Border>
+
+      <Border Background="{StaticResource Panel}" BorderBrush="{StaticResource Line}"
+              BorderThickness="1" CornerRadius="7">
+        <StackPanel>
+          <Border BorderBrush="{StaticResource Line}" BorderThickness="0,0,0,1" Padding="17,13">
+            <TextBlock Text="Installing drivers" FontWeight="SemiBold" />
+          </Border>
+
+          <Border BorderBrush="{StaticResource LineSoft}" BorderThickness="0,0,0,1" Padding="17,14">
+            <StackPanel MaxWidth="640" HorizontalAlignment="Left">
+              <TextBlock Text="DriverGeek 1.0 does not install drivers" FontWeight="SemiBold" />
+              <TextBlock FontSize="12" Margin="0,3,0,0" TextWrapping="Wrap" Foreground="{StaticResource Txt3}"
+                         Text="It reads your devices and shows you what Windows Update has, including the updates Windows hides. Replacing a driver is a different class of risk and it gets its own release, with the safety rules built first rather than bolted on." />
+            </StackPanel>
+          </Border>
+
+          <Border BorderBrush="{StaticResource LineSoft}" BorderThickness="0,0,0,1" Padding="17,14">
+            <StackPanel MaxWidth="640" HorizontalAlignment="Left">
+              <TextBlock Text="When it does, these are not settings" FontWeight="SemiBold" />
+              <TextBlock FontSize="12" Margin="0,3,0,0" TextWrapping="Wrap" Foreground="{StaticResource Txt3}"
+                         Text="A System Restore point first, and a refusal to run if System Protection is off. The current driver exported to disk before anything replaces it. One device at a time, ticked by you — there is no 'update all'. Boot-critical and storage controller drivers reported but never installed over. And never on a schedule." />
+            </StackPanel>
+          </Border>
+
+          <Border Padding="17,14">
+            <StackPanel MaxWidth="640" HorizontalAlignment="Left">
+              <TextBlock Text="System Protection on this PC" FontWeight="SemiBold" />
+              <TextBlock FontSize="12" Margin="0,3,0,0" TextWrapping="Wrap" Foreground="{StaticResource Txt3}"
+                         Text="{Binding SystemProtectionStatus}" />
+            </StackPanel>
+          </Border>
+        </StackPanel>
+      </Border>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>
