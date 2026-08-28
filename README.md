@@ -12,7 +12,7 @@
 [![Made by TechyGeeksHome](https://img.shields.io/badge/made%20by-TechyGeeksHome-b191f2)](https://techygeekshome.info)
 [![Support on Ko-fi](https://img.shields.io/badge/support-Ko--fi-ff5e5b)](https://ko-fi.com/techygeekshome)
 
-[What it does](#what-it-does) · [What it refuses to do](#what-it-refuses-to-do) · [Getting it running](#getting-it-running) · [Build from source](#build-from-source) · [Licence](#licence)
+[What it does](#what-it-does) · [Screenshots](#screenshots) · [What it refuses to do](#what-it-refuses-to-do) · [Getting it running](#getting-it-running) · [Build from source](#build-from-source) · [Licence](#licence)
 
 </div>
 
@@ -49,11 +49,35 @@ This category has a reputation, and it was earned. So, plainly:
 - 🏷️ **Honest staleness** — flags drivers with a newer version available, not merely old ones.
 - 🔗 **Vendor links** — for hardware Windows Update does not cover, a direct link to the
   manufacturer's support page for that device.
-- 💾 **Backs up before it changes anything** — the current driver is exported to disk first, and
-  a System Restore point is created. If System Protection is off, the install is refused rather
-  than risked.
-- 🚫 **Leaves boot-critical drivers alone** — storage controllers and anything the machine needs
-  to start are reported and never installed over.
+- 📖 **1.0 reads and reports. It does not install.** Everything above is a read of your machine
+  and a question put to Windows Update. Nothing is downloaded and nothing is changed.
+- 🚩 **Marks what an install would refuse** — boot-critical and storage controller drivers are
+  labelled on the list, because when the install path lands they will never be replaced.
+
+### Where 1.0 stops
+
+Shipping the reading half first is deliberate: it is most of the value with none of the risk.
+When installing arrives it exports the current driver to disk first, refuses to run at all if
+System Protection is off, takes a restore point, and does one device at a time — ticked by you.
+There is no "update all", and there never will be one on a schedule.
+
+## Screenshots
+
+<div align="center">
+
+**Drivers** — every device, its driver version and date, and whether it is signed.
+
+<img src="docs/screenshots/drivers.png" alt="The Drivers screen, listing every device with its driver version, date and status" width="820">
+
+**Updates** — what Windows Update is holding, including the ones it hides under Optional.
+
+<img src="docs/screenshots/updates.png" alt="The Updates screen" width="820">
+
+**Settings** — scanning options, and a plain statement of what 1.0 will not do.
+
+<img src="docs/screenshots/settings.png" alt="The Settings screen" width="820">
+
+</div>
 
 ## Getting it running
 
