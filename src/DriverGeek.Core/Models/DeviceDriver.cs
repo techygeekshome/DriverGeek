@@ -19,7 +19,7 @@ public sealed class DeviceDriver
 
     public bool IsSigned => !string.IsNullOrWhiteSpace(Signer);
 
-    /// <summary>The published INF name, e.g. oem42.inf. Used to export the driver before replacing it.</summary>
+    /// <summary>The published INF name, e.g. oem42.inf.</summary>
     public string InfName { get; init; } = "";
 
     public string DeviceId { get; init; } = "";

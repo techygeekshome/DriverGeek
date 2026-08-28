@@ -1,10 +1,5 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-  <!--
-    The colours are AppGeek's, from its Themes/Dark.xaml, so the two applications look like one
-    range rather than two projects. This is NOT the NeoDark web palette - that belongs to the
-    website. The app family uses this one.
-  -->
   <SolidColorBrush x:Key="Navy" Color="#FF0A0D16" />
   <SolidColorBrush x:Key="Chrome" Color="#FF0C111C" />
   <SolidColorBrush x:Key="Panel" Color="#FF111725" />

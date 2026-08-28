@@ -3,22 +3,14 @@ using DriverGeek.Core.Models;
 namespace DriverGeek.Core.Services;
 
 /// <summary>
-/// What DriverGeek is willing to call a problem.
-///
-/// This is the honesty rule of the whole application, in one class. Every paid tool in this
-/// category counts an old driver as a "found issue", because a scan that reports nothing wrong
-/// cannot sell you a fix. A 2019 driver for a 2019 chipset that works is not a problem, and
-/// DriverGeek will not say it is.
-///
-/// So there is exactly one thing that makes a device actionable: Windows Update has a NEWER
-/// driver for it. Age on its own is reported as a fact, never as a finding.
+/// Decides whether a device has anything worth reporting. The only thing that makes a device
+/// actionable is a newer driver from Windows Update; age on its own is reported as a fact.
 /// </summary>
 public static class StalenessPolicy
 {
     /// <summary>
-    /// Picks the best available update for a device, or null when nothing applies.
-    /// "Best" means the highest version we can actually parse; an update whose version we cannot
-    /// read is not treated as an upgrade.
+    /// The highest-versioned applicable update, or null when nothing applies. An update whose
+    /// version cannot be parsed is not treated as an upgrade.
     /// </summary>
     public static DriverUpdate? BestUpdateFor(DeviceDriver device, IEnumerable<DriverUpdate> updates)
     {
@@ -43,8 +35,8 @@ public static class StalenessPolicy
     }
 
     /// <summary>
-    /// Is this update for this device? Hardware ID is the reliable answer; the model and
-    /// manufacturer pair is a fallback for updates that do not carry one.
+    /// Hardware ID is the reliable match; model plus manufacturer is a fallback for updates that
+    /// carry no hardware ID.
     /// </summary>
     public static bool Matches(DeviceDriver device, DriverUpdate update)
     {
@@ -56,18 +48,14 @@ public static class StalenessPolicy
         if (string.IsNullOrWhiteSpace(update.DriverModel)) return false;
         if (!device.DeviceName.Equals(update.DriverModel, StringComparison.OrdinalIgnoreCase)) return false;
 
-        // A model name alone is not enough - "Wireless Adapter" is not unique. Require the
-        // manufacturer to agree too, when both sides state one.
+        // Model names are not unique, so require the manufacturer to agree as well.
         if (string.IsNullOrWhiteSpace(update.DriverManufacturer) ||
             string.IsNullOrWhiteSpace(device.Manufacturer)) return false;
 
         return device.Manufacturer.Equals(update.DriverManufacturer, StringComparison.OrdinalIgnoreCase);
     }
 
-    /// <summary>
-    /// A plain-English age note. This is deliberately NOT a warning: it is shown next to the
-    /// driver date and says nothing about whether anything should be done.
-    /// </summary>
+    /// <summary>A display note for the driver's age. Not a warning.</summary>
     public static string AgeNote(DateTime? driverDate, DateTime today)
     {
         if (driverDate is null) return "";

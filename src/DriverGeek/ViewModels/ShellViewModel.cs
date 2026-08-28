@@ -17,7 +17,7 @@ public sealed class ShellViewModel : ObservableObject
     public ShellViewModel()
     {
         _settings.Load();
-        ScanCommand = new RelayCommand(Scan, () => !Busy);
+        ScanCommand = new RelayCommand(() => _ = ScanAsync(), () => !Busy);
         ShowDrivers = new RelayCommand(() => Page = "Drivers");
         ShowUpdates = new RelayCommand(() => Page = "Updates");
         ShowSettings = new RelayCommand(() => Page = "Settings");
@@ -69,14 +69,17 @@ public sealed class ShellViewModel : ObservableObject
     public int OptionalCount => Updates.Count(u => u.IsOptional);
     public int UnsignedCount => Devices.Count(d => d.IsUnsigned);
 
-    private void Scan()
+    private async Task ScanAsync()
     {
         Busy = true;
-        StatusLine = "Reading devices and asking Windows Update…";
+        SearchError = null;
+        StatusLine = "Reading devices and asking Windows Update… this can take a few minutes.";
 
         try
         {
-            var result = _scan.Run(_settings.Current);
+            // Off the UI thread: the online Windows Update search can take minutes, and a
+            // blocked UI thread is what Windows reports as "not responding".
+            var result = await Task.Run(() => _scan.Run(_settings.Current));
 
             Devices.Clear();
             foreach (var d in result.Devices) Devices.Add(new DeviceRowViewModel(d));
@@ -90,6 +93,13 @@ public sealed class ShellViewModel : ObservableObject
                 ? $"{result.DeviceCount} devices · {result.UpdateCount} updates · " +
                   $"{result.OptionalCount} of them hidden by Windows as optional · nothing was installed"
                 : "Devices read, but Windows Update could not be searched.";
+        }
+        catch (Exception ex)
+        {
+            Log.Write("Scan failed: " + ex);
+            SearchError = "The scan could not finish. Nothing was changed on this machine. " +
+                          "See drivergeek.log for the reason.";
+            StatusLine = "The scan stopped early.";
         }
         finally
         {

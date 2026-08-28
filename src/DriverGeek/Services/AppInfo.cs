@@ -2,7 +2,7 @@ using System.Reflection;
 
 namespace DriverGeek.Services;
 
-/// <summary>Names, links and the one network call this application makes.</summary>
+/// <summary>Product names and links.</summary>
 public static class AppInfo
 {
     public const string Name = "DriverGeek";
@@ -17,10 +17,6 @@ public static class AppInfo
             ? $"{v.Major}.{v.Minor}.{v.Build}"
             : "1.0.0";
 
-    /// <summary>
-    /// DriverGeek talks to Windows Update, which is on this machine, and to nothing else.
-    /// There is no telemetry, no analytics, no account, and no update check that phones home
-    /// without being asked.
-    /// </summary>
+    /// <summary>Shown in the sidebar. The only service contacted is the local Windows Update agent.</summary>
     public const string NetworkPromise = "Nothing leaves this PC.";
 }

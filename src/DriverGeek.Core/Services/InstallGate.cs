@@ -2,7 +2,7 @@ using DriverGeek.Core.Models;
 
 namespace DriverGeek.Core.Services;
 
-/// <summary>The state of the machine at the moment an install is asked for.</summary>
+/// <summary>The state of the machine when an install is requested.</summary>
 public sealed record InstallContext
 {
     /// <summary>System Protection is on for the system drive, so a restore point can be made.</summary>
@@ -30,14 +30,8 @@ public sealed record GateResult(bool Allowed, string Reason)
 }
 
 /// <summary>
-/// Whether a driver install may proceed.
-///
-/// Nothing in here is a setting. These are the conditions under which DriverGeek is willing to
-/// replace a working driver at all, and they are checked in the order a person would care about
-/// them - the most alarming refusal first.
-///
-/// DriverGeek 1.0 does not install anything; this gate and its tests exist so that 1.1 has the
-/// safety rules already written and proven rather than bolted on next to the install button.
+/// Whether a driver install may proceed. None of these conditions is configurable, and the order
+/// of the checks is deliberate: the refusals that cannot be resolved are reported first.
 /// </summary>
 public static class InstallGate
 {
@@ -77,11 +71,7 @@ public static class InstallGate
         return GateResult.Allow();
     }
 
-    /// <summary>
-    /// A device the user should be warned about before it is installed - not refused, but not
-    /// waved through either. Losing the display or the network mid-install is recoverable and
-    /// deeply unpleasant.
-    /// </summary>
+    /// <summary>Warning text for devices that are risky to install but not refused. Empty when there is none.</summary>
     public static string WarningFor(DeviceDriver device) =>
         DriverClass.RiskOf(device.ClassGuid, device.ClassName) switch
         {

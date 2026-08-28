@@ -4,18 +4,9 @@ using DriverGeek.Core.Models;
 namespace DriverGeek.Services;
 
 /// <summary>
-/// Reads every device on the machine and the driver it is running, from
-/// Win32_PnPSignedDriver.
-///
-/// Two things about this class are deliberate.
-///
-/// First, it reads and nothing else. There is no code path here that changes anything, which is
-/// what makes DriverGeek 1.0 safe to run on any machine without a second thought.
-///
-/// Second, one bad row must never take out the scan. A machine with 150 devices reliably has one
-/// with a null property, an unparsable date or a WMI provider that throws on access, and losing
-/// the whole inventory to it would be the difference between a working app and a useless one.
-/// So every row is read defensively and a failure skips that device.
+/// Reads every device and its current driver from Win32_PnPSignedDriver. Rows are read
+/// defensively: a null property or a provider that throws skips that device rather than losing
+/// the whole inventory.
 /// </summary>
 public sealed class DriverInventoryService
 {
@@ -41,9 +32,11 @@ public sealed class DriverInventoryService
                 found.Add(device);
             }
         }
-        catch (ManagementException ex)
+        catch (Exception ex)
         {
-            Log.Write($"Driver inventory failed: {ex.Message}");
+            // An unhealthy WMI service throws COMException and UnauthorizedAccessException as
+            // readily as ManagementException. Whatever it is, report no devices rather than fail.
+            Log.Write("Driver inventory failed: " + ex);
         }
 
         return found
@@ -75,7 +68,7 @@ public sealed class DriverInventoryService
                 IsPresent = true
             };
         }
-        catch (ManagementException)
+        catch (Exception)
         {
             return null;
         }
@@ -87,16 +80,15 @@ public sealed class DriverInventoryService
         {
             return mo[property]?.ToString()?.Trim() ?? "";
         }
-        catch (ManagementException)
+        catch (Exception)
         {
             return "";
         }
     }
 
     /// <summary>
-    /// WMI dates are CIM_DATETIME - "20260612000000.000000+000". ManagementDateTimeConverter
-    /// handles the well-formed ones and throws on the rest, which is common enough on driver
-    /// dates to be worth catching rather than avoiding.
+    /// WMI dates are CIM_DATETIME, e.g. "20260612000000.000000+000". The converter throws on
+    /// malformed values, which is common enough on driver dates to be worth catching.
     /// </summary>
     private static DateTime? Date(ManagementObject mo, string property)
     {
@@ -106,8 +98,6 @@ public sealed class DriverInventoryService
             if (string.IsNullOrWhiteSpace(raw)) return null;
             return ManagementDateTimeConverter.ToDateTime(raw);
         }
-        catch (ArgumentOutOfRangeException) { return null; }
-        catch (FormatException) { return null; }
-        catch (ManagementException) { return null; }
+        catch (Exception) { return null; }
     }
 }

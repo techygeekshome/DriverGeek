@@ -1,13 +1,10 @@
 using DriverGeek.Tests;
 
-// DriverGeek's test harness. Run it with:
-//     dotnet run --project tests/DriverGeek.Tests -c Release
-// Exit code 0 means everything passed; 1 means something did not, and CI fails the build.
+// Run with: dotnet run --project tests/DriverGeek.Tests -c Release
+// Exit code 0 means everything passed; 1 fails the CI build.
 //
-// Everything under test here is in DriverGeek.Core, which targets plain net8.0 and touches no
-// Windows API. That is deliberate: it means the whole policy layer - what counts as an update,
-// what is boot-critical, what the install gate refuses - can be built and proven on any machine,
-// including CI, rather than only on a developer's Windows box.
+// Everything under test is in DriverGeek.Core, which targets plain net8.0 and touches no Windows
+// API, so the policy layer can be built and run on any machine.
 
 VersionTests.Run();
 ClassTests.Run();

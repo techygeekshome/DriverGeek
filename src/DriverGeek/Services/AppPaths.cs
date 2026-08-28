@@ -16,7 +16,7 @@ public static class AppPaths
     public static string SettingsFile => Path.Combine(DataFolder, "settings.json");
     public static string LogFile => Path.Combine(DataFolder, "drivergeek.log");
 
-    /// <summary>Where a driver is exported before anything replaces it. Used from 1.1.</summary>
+    /// <summary>Where a driver is exported before it is replaced.</summary>
     public static string DefaultBackupFolder
     {
         get

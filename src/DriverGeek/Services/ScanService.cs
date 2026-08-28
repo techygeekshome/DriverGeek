@@ -21,10 +21,7 @@ public sealed record ScanResult(
     public int UnsignedCount => Devices.Count(d => !d.Device.IsSigned);
 }
 
-/// <summary>
-/// Puts the inventory and the Windows Update search together. This is everything DriverGeek 1.0
-/// does: read what is installed, ask Windows what it has, and match the two up.
-/// </summary>
+/// <summary>Matches the installed driver inventory against the Windows Update search results.</summary>
 public sealed class ScanService
 {
     private readonly DriverInventoryService _inventory = new();

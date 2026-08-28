@@ -21,13 +21,13 @@ public static class ClassTests
         Check.That("boot-critical is recognised in upper case",
             DriverClass.IsBootCritical(scsi.ToUpperInvariant()));
 
-        // Class names are localised, so the GUID has to win when both are present.
+        // Class names are localised, so the GUID wins when both are present.
         Check.Equal("the GUID beats a misleading class name",
             DriverRisk.BootCritical, DriverClass.RiskOf(scsi, "Printer"));
         Check.Equal("a German class name still resolves by GUID",
             DriverRisk.Awkward, DriverClass.RiskOf(display, "Grafikkarte"));
 
-        // ...and the name is only a fallback when there is no usable GUID.
+        // The name is only a fallback when there is no usable GUID.
         Check.Equal("falls back to the class name when the GUID is missing",
             DriverRisk.BootCritical, DriverClass.RiskOf(null, "SCSIAdapter"));
         Check.Equal("falls back when the GUID is not a GUID",
