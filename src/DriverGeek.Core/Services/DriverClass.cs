@@ -1,34 +1,26 @@
 namespace DriverGeek.Core.Services;
 
-/// <summary>How much damage a bad driver in this class can do.</summary>
+/// <summary>How much damage a bad driver in this device class can do.</summary>
 public enum DriverRisk
 {
-    /// <summary>An ordinary device. A bad driver is an annoyance.</summary>
+    /// <summary>An ordinary device.</summary>
     Ordinary,
 
-    /// <summary>
-    /// A bad driver here leaves the machine working but hard to fix from - no screen, no network,
-    /// no keyboard. Allowed, but the user is told before it happens.
-    /// </summary>
+    /// <summary>A bad driver here loses the screen, network or input. Allowed, with a warning first.</summary>
     Awkward,
 
-    /// <summary>
-    /// A bad driver here can stop Windows starting at all. DriverGeek reports these and never
-    /// installs over them, in any version. This is not a setting.
-    /// </summary>
+    /// <summary>A bad driver here can stop Windows starting. Never installed over.</summary>
     BootCritical
 }
 
 /// <summary>
-/// Device setup classes, and which of them DriverGeek refuses to touch.
-///
-/// Matching is by the setup class GUID, because class NAMES are localised and a machine running
-/// Windows in German reports "Netzwerkadapter". The GUIDs are fixed by Microsoft and are the same
-/// on every install. Names are kept only as a fallback for the odd device that reports no GUID.
+/// Device setup classes and the risk attached to each. Matching is by class GUID: the GUIDs are
+/// fixed by Microsoft, whereas class names are localised. Names are only a fallback for a device
+/// that reports no usable GUID.
 /// </summary>
 public static class DriverClass
 {
-    // Storage and the buses underneath it. Get one of these wrong and the volume does not mount.
+    // Storage, and the buses beneath it.
     private static readonly HashSet<string> BootCriticalGuids = new(StringComparer.OrdinalIgnoreCase)
     {
         "{4d36e97b-e325-11ce-bfc1-08002be10318}", // SCSIAdapter - includes NVMe and RAID controllers

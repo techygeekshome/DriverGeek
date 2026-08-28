@@ -1,24 +1,17 @@
 namespace DriverGeek.Core.Services;
 
-/// <summary>A scheduled scan, turned into something schtasks.exe understands.</summary>
+/// <summary>A scheduled scan, expressed in the terms schtasks.exe takes.</summary>
 public sealed record ScanPlan(bool NeedsScheduledTask, string Describe, string Frequency, string StartTime, string Day)
 {
     public static ScanPlan Manual() => new(false, "Only when you press Scan", "", "", "");
 }
 
 /// <summary>
-/// Turns the Settings dropdown into a task definition. Pure on purpose, so the awkward part -
-/// what the words mean - is tested without going anywhere near Task Scheduler.
-///
-/// Same shape as AppGeek's ScanSchedule, and the same three non-obvious choices apply, for the
-/// same reasons: no /RU or /RP (registers for the current account, runs only when logged on,
-/// never prompts for a password), /RL HIGHEST (the manifest requires administrator and the task
-/// would otherwise stall behind a UAC prompt at 3am), and a flat task name with no folder
-/// (schtasks will not create a folder, and a path into one that does not exist registers
-/// nothing at all).
-///
-/// The one difference from AppGeek is what the task is allowed to do. AppGeek's scheduled task
-/// scans and can be told to install. DriverGeek's scans and cannot: see InstallGate.
+/// Turns the Settings schedule choice into a schtasks.exe task definition. Three non-obvious
+/// choices: no /RU or /RP, so the task registers for the current account, runs only when logged
+/// on and never needs a stored password; /RL HIGHEST, or the task stalls behind a UAC prompt;
+/// and a flat task name, because schtasks will not create a folder and registering into one that
+/// does not exist silently does nothing.
 /// </summary>
 public static class ScanSchedule
 {
@@ -40,9 +33,8 @@ public static class ScanSchedule
     }
 
     /// <summary>
-    /// The schtasks command line. Returns empty when the choice needs no task, which is also the
-    /// signal to REMOVE any task already registered - switching to "Manually only" must not
-    /// leave an orphan behind.
+    /// The schtasks command line. Empty when no task is needed, which is also the signal to
+    /// delete any task already registered rather than leaving an orphan behind.
     /// </summary>
     public static string CreateCommand(ScanPlan plan, string exePath)
     {

@@ -1,16 +1,9 @@
 namespace DriverGeek.Core.Services;
 
 /// <summary>
-/// Comparing Windows driver versions.
-///
-/// A driver version is four dotted numbers - 23.60.1.3 - but the strings that reach us are not
-/// reliably that. WMI hands back an empty string for some inbox devices, vendors ship three parts
-/// or five, and a few put letters in. Every one of those has to compare without throwing, because
-/// this runs across every device on the machine and one odd string must not take out the scan.
-///
-/// Deliberate: a version we cannot parse is never treated as older than one we can. Saying
-/// "you are out of date" on the strength of a string we did not understand is the exact
-/// dishonesty this app exists to avoid.
+/// Compares Windows driver version strings. WMI reports empty versions for some inbox devices,
+/// and vendors ship three, five or non-numeric parts, so nothing here throws. A version that
+/// cannot be parsed is never treated as older than one that can.
 /// </summary>
 public static class DriverVersion
 {
@@ -38,9 +31,7 @@ public static class DriverVersion
         return true;
     }
 
-    /// <summary>
-    /// -1, 0 or 1 the usual way. Missing trailing parts count as zero, so 23.60 == 23.60.0.0.
-    /// </summary>
+    /// <summary>-1, 0 or 1. Missing trailing parts count as zero, so 23.60 == 23.60.0.0.</summary>
     public static int Compare(string? left, string? right)
     {
         var okLeft = TryParse(left, out var a);
@@ -59,10 +50,7 @@ public static class DriverVersion
         return 0;
     }
 
-    /// <summary>
-    /// True only when we understood BOTH strings and the candidate really is higher. An
-    /// unparsable version on either side answers false - see the note at the top of the class.
-    /// </summary>
+    /// <summary>True only when both strings parse and the candidate is higher.</summary>
     public static bool IsNewer(string? candidate, string? installed)
     {
         if (!TryParse(candidate, out _) || !TryParse(installed, out _)) return false;

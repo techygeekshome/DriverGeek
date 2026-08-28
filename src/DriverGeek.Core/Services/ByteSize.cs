@@ -1,6 +1,6 @@
 namespace DriverGeek.Core.Services;
 
-/// <summary>Sizes the way a person reads them. One decimal place, and never "0.0 KB".</summary>
+/// <summary>Formats a byte count for display, to at most one decimal place.</summary>
 public static class ByteSize
 {
     private static readonly string[] Units = ["bytes", "KB", "MB", "GB", "TB"];
