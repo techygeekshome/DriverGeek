@@ -10,14 +10,10 @@ public sealed class AppSettings
     [JsonPropertyName("notifyOnUpdates")] public bool NotifyOnUpdates { get; set; } = true;
     [JsonPropertyName("includeAbsentDevices")] public bool IncludeAbsentDevices { get; set; }
 
-    // Where an exported driver goes before anything replaces it.
+    // Where a driver is exported before it is replaced.
     [JsonPropertyName("backupFolder")] public string BackupFolder { get; set; } = "";
 
-    /// <summary>
-    /// Deliberately absent from this file, because they are not settings and never will be:
-    /// creating a restore point, exporting the current driver, and refusing boot-critical
-    /// devices. They live in InstallGate, which has no way to be turned off.
-    /// </summary>
+    /// <summary>Text for the Settings page. These safeguards live in InstallGate and are not configurable.</summary>
     [JsonIgnore] public static string SafetyNote =>
         "Restore point, driver export and the boot-critical refusal are not configurable.";
 }
