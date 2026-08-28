@@ -32,9 +32,11 @@ public sealed class DriverInventoryService
                 found.Add(device);
             }
         }
-        catch (ManagementException ex)
+        catch (Exception ex)
         {
-            Log.Write($"Driver inventory failed: {ex.Message}");
+            // An unhealthy WMI service throws COMException and UnauthorizedAccessException as
+            // readily as ManagementException. Whatever it is, report no devices rather than fail.
+            Log.Write("Driver inventory failed: " + ex);
         }
 
         return found
@@ -66,7 +68,7 @@ public sealed class DriverInventoryService
                 IsPresent = true
             };
         }
-        catch (ManagementException)
+        catch (Exception)
         {
             return null;
         }
@@ -78,7 +80,7 @@ public sealed class DriverInventoryService
         {
             return mo[property]?.ToString()?.Trim() ?? "";
         }
-        catch (ManagementException)
+        catch (Exception)
         {
             return "";
         }
@@ -96,8 +98,6 @@ public sealed class DriverInventoryService
             if (string.IsNullOrWhiteSpace(raw)) return null;
             return ManagementDateTimeConverter.ToDateTime(raw);
         }
-        catch (ArgumentOutOfRangeException) { return null; }
-        catch (FormatException) { return null; }
-        catch (ManagementException) { return null; }
+        catch (Exception) { return null; }
     }
 }

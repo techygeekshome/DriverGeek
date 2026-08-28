@@ -78,6 +78,14 @@ public sealed class WindowsUpdateDriverService
         {
             error = "Windows would not allow a driver search from this account.";
         }
+        catch (Exception ex)
+        {
+            // Late binding turns a missing member, a bad type or a failed marshal into a plain
+            // exception rather than a COMException. None of them are worth losing the app over:
+            // the device list is still useful without the update search.
+            error = "The driver search could not be completed on this machine.";
+            Log.Write("WUA search failed: " + ex);
+        }
         finally
         {
             Release(searcher);
@@ -130,8 +138,10 @@ public sealed class WindowsUpdateDriverService
                 DriverDate = date
             };
         }
-        catch (COMException)
+        catch (Exception ex)
         {
+            // A single update that will not answer is dropped, not fatal.
+            Log.Write("Skipped an update that could not be read: " + ex.Message);
             return null;
         }
     }
@@ -157,7 +167,14 @@ public sealed class WindowsUpdateDriverService
 
     private static void Release(object? o)
     {
-        if (o is not null && Marshal.IsComObject(o))
-            Marshal.ReleaseComObject(o);
+        try
+        {
+            if (o is not null && Marshal.IsComObject(o))
+                Marshal.ReleaseComObject(o);
+        }
+        catch (ArgumentException)
+        {
+            // Already released.
+        }
     }
 }
