@@ -1,0 +1,48 @@
+using DriverGeek.Core.Models;
+using DriverGeek.Core.Services;
+
+namespace DriverGeek.Services;
+
+/// <summary>One device, with whatever Windows Update has for it attached.</summary>
+public sealed record ScannedDevice(DeviceDriver Device, DriverUpdate? Update, DeviceStatus Status)
+{
+    public DriverRisk Risk => DriverClass.RiskOf(Device.ClassGuid, Device.ClassName);
+    public bool IsBootCritical => Risk == DriverRisk.BootCritical;
+}
+
+public sealed record ScanResult(
+    IReadOnlyList<ScannedDevice> Devices,
+    IReadOnlyList<DriverUpdate> Updates,
+    string? Error)
+{
+    public int DeviceCount => Devices.Count;
+    public int UpdateCount => Devices.Count(d => d.Status != DeviceStatus.Current);
+    public int OptionalCount => Devices.Count(d => d.Status == DeviceStatus.UpdateHiddenAsOptional);
+    public int UnsignedCount => Devices.Count(d => !d.Device.IsSigned);
+}
+
+/// <summary>
+/// Puts the inventory and the Windows Update search together. This is everything DriverGeek 1.0
+/// does: read what is installed, ask Windows what it has, and match the two up.
+/// </summary>
+public sealed class ScanService
+{
+    private readonly DriverInventoryService _inventory = new();
+    private readonly WindowsUpdateDriverService _updates = new();
+
+    public ScanResult Run(AppSettings settings)
+    {
+        var devices = _inventory.Read(settings.IncludeAbsentDevices);
+        var updates = _updates.Search(settings.IncludeOptionalUpdates, out var error);
+
+        var scanned = devices
+            .Select(d => new ScannedDevice(d, StalenessPolicy.BestUpdateFor(d, updates),
+                                           StalenessPolicy.StatusFor(d, updates)))
+            .ToList();
+
+        Log.Write($"Scan: {devices.Count} devices, {updates.Count} driver updates from Windows Update" +
+                  (error is null ? "" : $" (search error: {error})"));
+
+        return new ScanResult(scanned, updates, error);
+    }
+}
