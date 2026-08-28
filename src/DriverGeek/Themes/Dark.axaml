@@ -1,0 +1,39 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <!--
+    The colours are AppGeek's, from its Themes/Dark.xaml, so the two applications look like one
+    range rather than two projects. This is NOT the NeoDark web palette - that belongs to the
+    website. The app family uses this one.
+  -->
+  <SolidColorBrush x:Key="Navy" Color="#FF0A0D16" />
+  <SolidColorBrush x:Key="Chrome" Color="#FF0C111C" />
+  <SolidColorBrush x:Key="Panel" Color="#FF111725" />
+  <SolidColorBrush x:Key="Panel2" Color="#FF161D2E" />
+  <SolidColorBrush x:Key="PanelHover" Color="#FF141B2A" />
+  <SolidColorBrush x:Key="Selected" Color="#FF12203A" />
+  <SolidColorBrush x:Key="Line" Color="#FF242D42" />
+  <SolidColorBrush x:Key="LineSoft" Color="#FF1A2233" />
+  <SolidColorBrush x:Key="Line2" Color="#FF2E3950" />
+
+  <SolidColorBrush x:Key="Blue" Color="#FF2E78D8" />
+  <SolidColorBrush x:Key="BlueHover" Color="#FF3A85E6" />
+  <SolidColorBrush x:Key="BlueLight" Color="#FF6BA8F0" />
+  <SolidColorBrush x:Key="Teal" Color="#FF17AEB7" />
+  <SolidColorBrush x:Key="Green" Color="#FF3BA55C" />
+  <SolidColorBrush x:Key="GreenLight" Color="#FF5ED18A" />
+  <SolidColorBrush x:Key="Amber" Color="#FFE0A62B" />
+  <SolidColorBrush x:Key="Red" Color="#FFD9534F" />
+  <SolidColorBrush x:Key="RedLight" Color="#FFE08D8A" />
+
+  <SolidColorBrush x:Key="Txt" Color="#FFFFFFFF" />
+  <SolidColorBrush x:Key="Txt2" Color="#FFBEC4D2" />
+  <SolidColorBrush x:Key="Txt3" Color="#FF7C8699" />
+  <SolidColorBrush x:Key="Txt4" Color="#FF5C6578" />
+
+  <SolidColorBrush x:Key="ControlBg" Color="#FF0E1421" />
+  <SolidColorBrush x:Key="ButtonBg" Color="#FF1B2333" />
+  <SolidColorBrush x:Key="ButtonBorder" Color="#FF2A3549" />
+
+  <FontFamily x:Key="UiFont">Segoe UI Variable Display, Segoe UI, Arial</FontFamily>
+  <FontFamily x:Key="MonoFont">Cascadia Mono, Consolas, Courier New</FontFamily>
+</ResourceDictionary>
