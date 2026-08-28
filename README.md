@@ -33,10 +33,10 @@ pack.
 This category has a reputation, and it was earned. So, plainly:
 
 - **No driver pack, no third-party driver hosting.** Updates come from Windows Update, which is
-WHQL-signed and already trusted by your machine. Anything else is a link to the vendor.
+  WHQL-signed and already trusted by your machine. Anything else is a link to the vendor.
 - **No "247 issues found!"** An old driver that works is not a problem. DriverGeek distinguishes
-*there is a newer driver available from Windows Update* from *this driver is old*, and it will
-tell you when the answer is that nothing needs doing.
+  *there is a newer driver available from Windows Update* from *this driver is old*, and it will
+  tell you when the answer is that nothing needs doing.
 - **No scan-then-pay.** There is no paid tier, no upsell and nothing withheld.
 - **No telemetry, no account, no bundled offers.**
 - **It never installs anything on its own.** No automatic mode, no scheduled installs.
@@ -44,15 +44,15 @@ tell you when the answer is that nothing needs doing.
 ## What it does
 
 - 🔎 **Full driver inventory** — every device, its current driver version and date, the provider,
-and whether the driver is signed.
+  and whether the driver is signed.
 - ⬇️ **Surfaces optional driver updates** — the ones Windows Update has but does not offer you.
 - 🏷️ **Honest staleness** — flags drivers with a newer version available, not merely old ones.
 - 🔗 **Vendor links** — for hardware Windows Update does not cover, a direct link to the
-manufacturer's support page for that device.
+  manufacturer's support page for that device.
 - 📖 **1.0 reads and reports. It does not install.** Everything above is a read of your machine
-and a question put to Windows Update. Nothing is downloaded and nothing is changed.
+  and a question put to Windows Update. Nothing is downloaded and nothing is changed.
 - 🚩 **Marks what an install would refuse** — boot-critical and storage controller drivers are
-labelled on the list, because when the install path lands they will never be replaced.
+  labelled on the list, because when the install path lands they will never be replaced.
 
 ### Where 1.0 stops
 
