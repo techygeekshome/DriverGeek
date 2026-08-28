@@ -1,0 +1,79 @@
+name: release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+jobs:
+  release:
+    # Windows, unlike the build workflow, because this one PUBLISHES a Windows executable and
+    # compiles an installer. The build workflow stays on ubuntu because it only has to compile
+    # and run the checks.
+    runs-on: windows-latest
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      # Nothing gets released that has not passed the checks, even though the build workflow
+      # already ran them - a tag can be pushed to a commit that never saw a pull request.
+      - name: Run the checks
+        run: dotnet run --project tests/DriverGeek.Tests -c Release
+
+      - name: Publish the portable build
+        run: >
+          dotnet publish src/DriverGeek/DriverGeek.csproj -c Release -r win-x64
+          --self-contained true
+          -p:PublishSingleFile=true
+          -p:IncludeNativeLibrariesForSelfExtract=true
+          -o publish/app
+
+      - name: Build the installer
+        shell: pwsh
+        run: |
+          $iscc = "C:\Program Files (x86)\Inno Setup 6\ISCC.exe"
+          if (-not (Test-Path $iscc)) {
+            Write-Host "Inno Setup not found on the runner image, installing it."
+            choco install innosetup --no-progress -y
+          }
+          if (-not (Test-Path $iscc)) { throw "Inno Setup is still not at $iscc." }
+
+          & $iscc "installer\DriverGeek.iss"
+          if ($LASTEXITCODE -ne 0) { throw "ISCC exited with $LASTEXITCODE." }
+
+      - name: Collect the artefacts
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path dist | Out-Null
+          Copy-Item "publish\app\DriverGeek.exe" "dist\DriverGeek-portable.exe" -Force
+
+          # Releasing two files and calling it done is how AppGeek shipped without an installer.
+          if (-not (Test-Path "dist\DriverGeekSetup.exe")) { throw "The setup executable is missing." }
+
+          Remove-Item "dist\SHA256SUMS.txt" -ErrorAction SilentlyContinue
+          Get-ChildItem dist -File | Where-Object { $_.Name -ne 'SHA256SUMS.txt' } | ForEach-Object {
+            $hash = (Get-FileHash $_.FullName -Algorithm SHA256).Hash.ToLower()
+            "$hash  $($_.Name)" | Add-Content "dist\SHA256SUMS.txt" -Encoding ascii
+          }
+
+          Get-Content "dist\SHA256SUMS.txt"
+
+      - name: Upload the build artefacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: drivergeek-${{ github.ref_name }}
+          path: dist/*
+
+      - name: Attach to the GitHub release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+          draft: true
+          generate_release_notes: true
