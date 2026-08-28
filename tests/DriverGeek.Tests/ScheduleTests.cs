@@ -29,8 +29,7 @@ public static class ScheduleTests
         Check.That("the command overwrites an existing task", cmd.Contains("/f "));
         Check.That("the task name has no folder in it", !ScanSchedule.TaskName.Contains('\\'));
 
-        // No /RU or /RP: winget-style per-user tooling and driver work both misbehave under
-        // SYSTEM with no loaded profile, and adding them would prompt for a password.
+        // No /RU or /RP: the task runs as the logged-on user and needs no stored password.
         Check.That("no run-as user is set", !cmd.Contains("/ru "));
         Check.That("no password is ever passed", !cmd.Contains("/rp "));
 

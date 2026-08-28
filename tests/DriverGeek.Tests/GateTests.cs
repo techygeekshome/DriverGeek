@@ -54,8 +54,8 @@ public static class GateTests
         Check.That("a driver export that did not happen is refused",
             !InstallGate.CanInstall(Ordinary(), Good() with { CurrentDriverExported = false }).Allowed);
 
-        // Boot-critical is checked first, so that is the reason a user sees even when other
-        // things are also wrong - it is the one that will never change.
+        // Boot-critical is checked first, so it is the reason reported even when something
+        // fixable is also wrong.
         var both = InstallGate.CanInstall(Storage(), Good() with { SystemProtectionEnabled = false });
         Check.That("boot-critical is reported ahead of a fixable problem",
             both.Reason.Contains("boot-critical"));

@@ -33,7 +33,6 @@ public static class StalenessTests
         var wifi = Device("Intel Wi-Fi 6E AX211 160MHz", "23.60.1.3",
             hwid: @"PCI\VEN_8086&DEV_51F0", maker: "Intel Corporation");
 
-        // The headline behaviour: an optional update is found and correctly labelled.
         var optional = Update("Intel Wi-Fi 6E AX211 160MHz", "23.80.0.9", optional: true,
             hwid: @"PCI\VEN_8086&DEV_51F0");
         Check.Equal("an optional update is surfaced as such",
@@ -43,7 +42,7 @@ public static class StalenessTests
         Check.Equal("an ordinary update is surfaced as offered",
             DeviceStatus.UpdateOffered, StalenessPolicy.StatusFor(wifi, [offered]));
 
-        // The honesty rule, stated as a test: age alone is never a finding.
+        // Age alone is never a finding.
         var ancient = Device("AMD SMBus", "5.12.0.38");
         Check.Equal("a 2023 driver with nothing newer is Current",
             DeviceStatus.Current, StalenessPolicy.StatusFor(ancient, []));
@@ -65,7 +64,7 @@ public static class StalenessTests
         Check.That("a different hardware ID does not match",
             !StalenessPolicy.Matches(wifi, Update("Something else", "9.9.9.9", hwid: @"PCI\VEN_10DE&DEV_2786")));
 
-        // A model name on its own is not unique - "Wireless Adapter" is on a hundred machines.
+        // A model name on its own is not unique.
         var vague = Device("Wireless Adapter", "1.0.0.0", maker: "Realtek");
         Check.That("model alone is not enough without a manufacturer",
             !StalenessPolicy.Matches(vague, Update("Wireless Adapter", "2.0.0.0")));

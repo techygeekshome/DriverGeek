@@ -1,11 +1,6 @@
 namespace DriverGeek.Tests;
 
-/// <summary>
-/// A deliberately tiny assertion harness, copied from AppGeek. DriverGeek takes no third-party
-/// dependencies outside the UI framework, and that rule is worth more than the conveniences xunit
-/// would add: every package in the tree is a package a reviewer has to trust, and this project
-/// asks people to trust it with administrator rights.
-/// </summary>
+/// <summary>Minimal assertion harness, so the test project takes no third-party dependencies.</summary>
 public static class Check
 {
     private static int _passed;

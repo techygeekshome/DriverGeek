@@ -29,7 +29,7 @@ public static class VersionTests
         Check.That("an equal version is not newer", !DriverVersion.IsNewer("23.60.1.3", "23.60.1.3"));
         Check.That("an older version is not newer", !DriverVersion.IsNewer("23.60.1.3", "23.80.0.9"));
 
-        // The honesty rule: never claim an upgrade off the back of a string we did not understand.
+        // Never claim an upgrade from a version string that could not be parsed.
         Check.That("unreadable candidate is never newer", !DriverVersion.IsNewer("Unknown", "23.60.1.3"));
         Check.That("unreadable installed version is never beaten", !DriverVersion.IsNewer("23.80.0.9", ""));
         Check.That("two unreadable versions compare equal", DriverVersion.Compare("x", "y") == 0);
