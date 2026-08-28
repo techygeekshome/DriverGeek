@@ -8,7 +8,7 @@
     <ApplicationIcon>..\..\icons\drivergeek.ico</ApplicationIcon>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
-    <!-- Lets the project build on a non-Windows machine (CI) even though it only runs on Windows. -->
+    <!-- Lets the project compile on a non-Windows machine (CI), though it only runs on Windows. -->
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <NoWarn>CA1416</NoWarn>
   </PropertyGroup>

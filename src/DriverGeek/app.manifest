@@ -3,12 +3,8 @@
   <assemblyIdentity version="1.0.0.0" name="TechyGeeksHome.DriverGeek" />
 
   <!--
-    DriverGeek 1.0 only reads. It does not need administrator rights, and does not ask for them:
-    asInvoker is deliberate. Windows Update Agent searches, the driver inventory and the System
-    Protection check all work unelevated.
-
-    When the install path lands in 1.1 it will relaunch elevated for that one action, rather than
-    running the whole application as administrator all the time.
+    asInvoker, not requireAdministrator: the Windows Update Agent search, the driver inventory
+    and the System Protection check all work unelevated, so there is nothing to elevate for.
   -->
   <trustInfo xmlns="urn:schemas-microsoft-com:asm.v2">
     <security>

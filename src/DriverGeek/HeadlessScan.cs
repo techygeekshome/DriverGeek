@@ -2,10 +2,7 @@ using DriverGeek.Services;
 
 namespace DriverGeek;
 
-/// <summary>
-/// The scheduled scan. No window, no interaction, and - the important part - no way to change
-/// anything. It reads, it writes a line to the log, and it exits.
-/// </summary>
+/// <summary>The scheduled scan: no window and no interaction. Reads, writes a log line and exits.</summary>
 internal static class HeadlessScan
 {
     public static int Run()
@@ -26,8 +23,7 @@ internal static class HeadlessScan
         }
         catch (Exception ex)
         {
-            // A scheduled task that throws leaves a red entry in Task Scheduler and no
-            // explanation. Write the reason down where a person can find it.
+            // Task Scheduler records only that the task failed, so record why.
             Log.Write("Scheduled scan failed: " + ex);
             return 1;
         }
