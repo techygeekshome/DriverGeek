@@ -3,8 +3,8 @@
              xmlns:vm="using:DriverGeek.ViewModels"
              x:Class="DriverGeek.Views.UpdatesView"
              x:DataType="vm:ShellViewModel">
-  <ScrollViewer Padding="26,20">
-    <StackPanel Spacing="16">
+  <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+    <StackPanel Spacing="16" Margin="26,20">
 
       <Border Background="{StaticResource Panel2}" BorderBrush="{StaticResource Line}"
               BorderThickness="1" CornerRadius="7" Padding="16,14">
@@ -33,7 +33,7 @@
                 <Border BorderBrush="{StaticResource LineSoft}" BorderThickness="0,0,0,1" Padding="17,14">
                   <Grid ColumnDefinitions="*,190,90">
                     <StackPanel>
-                      <TextBlock Text="{Binding DeviceName}" FontWeight="SemiBold" />
+                      <TextBlock Text="{Binding DeviceName}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
                       <TextBlock FontSize="12" Margin="0,3,0,0" Foreground="{StaticResource Txt3}"
                                  Text="{Binding Change}" FontFamily="{StaticResource MonoFont}" />
                       <TextBlock FontSize="12" Margin="0,3,0,0" TextWrapping="Wrap"

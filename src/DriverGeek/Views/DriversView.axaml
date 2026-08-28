@@ -3,8 +3,8 @@
              xmlns:vm="using:DriverGeek.ViewModels"
              x:Class="DriverGeek.Views.DriversView"
              x:DataType="vm:ShellViewModel">
-  <ScrollViewer Padding="26,20">
-    <StackPanel Spacing="16">
+  <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+    <StackPanel Spacing="16" Margin="26,20">
 
       <Border Background="{StaticResource Panel2}" BorderBrush="{StaticResource Line}"
               BorderThickness="1,1,1,1" CornerRadius="7" Padding="16,14"
@@ -34,7 +34,7 @@
                   <Grid ColumnDefinitions="*,150,130,110">
                     <StackPanel>
                       <StackPanel Orientation="Horizontal" Spacing="8">
-                        <TextBlock Text="{Binding DeviceName}" FontWeight="SemiBold" />
+                        <TextBlock Text="{Binding DeviceName}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
                         <Border IsVisible="{Binding IsBootCritical}" CornerRadius="5" Padding="7,3"
                                 Background="#22D9534F">
                           <TextBlock Text="BOOT-CRITICAL" FontSize="10.5" FontWeight="Bold"
@@ -47,6 +47,7 @@
                         </Border>
                       </StackPanel>
                       <TextBlock Text="{Binding SubTitle}" FontSize="12" Margin="0,3,0,0"
+                                 TextTrimming="CharacterEllipsis"
                                  Foreground="{StaticResource Txt3}" />
                     </StackPanel>
 

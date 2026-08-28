@@ -3,8 +3,8 @@
              xmlns:vm="using:DriverGeek.ViewModels"
              x:Class="DriverGeek.Views.SettingsView"
              x:DataType="vm:SettingsViewModel">
-  <ScrollViewer Padding="26,20">
-    <StackPanel Spacing="16">
+  <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+    <StackPanel Spacing="16" Margin="26,20">
 
       <Border Background="{StaticResource Panel}" BorderBrush="{StaticResource Line}"
               BorderThickness="1" CornerRadius="7">
