@@ -91,11 +91,8 @@
       <Panel>
         <views:DriversView IsVisible="{Binding IsDrivers}" />
         <views:UpdatesView IsVisible="{Binding IsUpdates}" />
-        <!--
-             Settings has its own view model, so it is hosted rather than nested: setting
-             DataContext on the view itself would also rebind IsVisible, which the compiled-binding
-             checker catches at build time.
-        -->
+        <!-- Settings has its own view model, so it is hosted in a ContentControl: setting
+             DataContext on the view itself would also rebind IsVisible. -->
         <ContentControl IsVisible="{Binding IsSettings}" Content="{Binding Settings}">
           <ContentControl.ContentTemplate>
             <DataTemplate x:DataType="vm:SettingsViewModel">
