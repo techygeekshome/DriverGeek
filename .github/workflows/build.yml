@@ -1,0 +1,27 @@
+name: build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      # The whole solution builds on Linux. The application targets net8.0-windows and only
+      # RUNS on Windows, but EnableWindowsTargeting lets CI compile it here, and the policy
+      # layer under src/DriverGeek.Core is plain net8.0 with no platform dependency at all -
+      # which is why the tests can run on a cheap runner rather than needing a Windows one.
+      - name: Build
+        run: dotnet build DriverGeek.sln -c Release
+
+      - name: Test
+        run: dotnet run --project tests/DriverGeek.Tests -c Release --no-build

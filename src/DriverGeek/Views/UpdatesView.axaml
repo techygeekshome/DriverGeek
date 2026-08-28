@@ -1,0 +1,63 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:DriverGeek.ViewModels"
+             x:Class="DriverGeek.Views.UpdatesView"
+             x:DataType="vm:ShellViewModel">
+  <ScrollViewer Padding="26,20">
+    <StackPanel Spacing="16">
+
+      <Border Background="{StaticResource Panel2}" BorderBrush="{StaticResource Line}"
+              BorderThickness="1" CornerRadius="7" Padding="16,14">
+        <StackPanel>
+          <TextBlock Text="DriverGeek 1.0 reports updates. It does not install them."
+                     FontWeight="SemiBold" FontSize="13" />
+          <TextBlock TextWrapping="Wrap" FontSize="12" Margin="0,3,0,0" Foreground="{StaticResource Txt3}"
+                     Text="Every update below is a WHQL-signed package Windows Update already holds for this machine. The ones marked HIDDEN AS OPTIONAL are the ones Windows will never offer you on its own — they sit under Settings, Windows Update, Advanced options, Optional updates." />
+        </StackPanel>
+      </Border>
+
+      <Border Background="{StaticResource Panel}" BorderBrush="{StaticResource Line}"
+              BorderThickness="1" CornerRadius="7">
+        <StackPanel>
+          <Border BorderBrush="{StaticResource Line}" BorderThickness="0,0,0,1" Padding="17,13">
+            <Grid ColumnDefinitions="*,Auto">
+              <TextBlock Text="Available from Windows Update" FontWeight="SemiBold" />
+              <TextBlock Grid.Column="1" FontSize="11.5" Foreground="{StaticResource Txt3}"
+                         Text="{Binding OptionalCount, StringFormat='{}{0} hidden as optional'}" />
+            </Grid>
+          </Border>
+
+          <ItemsControl ItemsSource="{Binding Updates}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="vm:UpdateRowViewModel">
+                <Border BorderBrush="{StaticResource LineSoft}" BorderThickness="0,0,0,1" Padding="17,14">
+                  <Grid ColumnDefinitions="*,190,90">
+                    <StackPanel>
+                      <TextBlock Text="{Binding DeviceName}" FontWeight="SemiBold" />
+                      <TextBlock FontSize="12" Margin="0,3,0,0" Foreground="{StaticResource Txt3}"
+                                 Text="{Binding Change}" FontFamily="{StaticResource MonoFont}" />
+                      <TextBlock FontSize="12" Margin="0,3,0,0" TextWrapping="Wrap"
+                                 Foreground="{StaticResource Txt4}" Text="{Binding ActionNote}" />
+                    </StackPanel>
+
+                    <TextBlock Grid.Column="1" Text="{Binding Label}" FontSize="10.5" FontWeight="Bold"
+                               HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,2,0,0"
+                               Foreground="{StaticResource Txt2}" />
+
+                    <TextBlock Grid.Column="2" Text="{Binding Size}" FontSize="12"
+                               FontFamily="{StaticResource MonoFont}" HorizontalAlignment="Right"
+                               VerticalAlignment="Top" Margin="0,2,0,0" Foreground="{StaticResource Txt3}" />
+                  </Grid>
+                </Border>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+
+          <TextBlock IsVisible="{Binding !UpdateCount}" Padding="17,22" FontSize="12.5"
+                     Foreground="{StaticResource Txt3}" TextWrapping="Wrap"
+                     Text="No driver updates found. That is a real answer, not a failure — most machines, most of the time, have nothing newer waiting. DriverGeek will not invent a list to look busy." />
+        </StackPanel>
+      </Border>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>

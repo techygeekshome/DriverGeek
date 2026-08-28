@@ -1,0 +1,79 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:DriverGeek.ViewModels"
+             x:Class="DriverGeek.Views.DriversView"
+             x:DataType="vm:ShellViewModel">
+  <ScrollViewer Padding="26,20">
+    <StackPanel Spacing="16">
+
+      <Border Background="{StaticResource Panel2}" BorderBrush="{StaticResource Line}"
+              BorderThickness="1,1,1,1" CornerRadius="7" Padding="16,14"
+              IsVisible="{Binding HasSearchError}">
+        <StackPanel>
+          <TextBlock Text="Windows Update could not be searched" FontWeight="SemiBold" FontSize="13" />
+          <TextBlock Text="{Binding SearchError}" FontSize="12" TextWrapping="Wrap" Margin="0,3,0,0"
+                     Foreground="{StaticResource Txt3}" />
+        </StackPanel>
+      </Border>
+
+      <Border Background="{StaticResource Panel}" BorderBrush="{StaticResource Line}"
+              BorderThickness="1" CornerRadius="7">
+        <StackPanel>
+          <Border BorderBrush="{StaticResource Line}" BorderThickness="0,0,0,1" Padding="17,13">
+            <Grid ColumnDefinitions="*,Auto">
+              <TextBlock Text="All devices" FontWeight="SemiBold" />
+              <TextBlock Grid.Column="1" FontSize="11.5" Foreground="{StaticResource Txt3}"
+                         Text="{Binding DeviceCount, StringFormat='{}{0} devices'}" />
+            </Grid>
+          </Border>
+
+          <ItemsControl ItemsSource="{Binding Devices}">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="vm:DeviceRowViewModel">
+                <Border BorderBrush="{StaticResource LineSoft}" BorderThickness="0,0,0,1" Padding="17,14">
+                  <Grid ColumnDefinitions="*,150,130,110">
+                    <StackPanel>
+                      <StackPanel Orientation="Horizontal" Spacing="8">
+                        <TextBlock Text="{Binding DeviceName}" FontWeight="SemiBold" />
+                        <Border IsVisible="{Binding IsBootCritical}" CornerRadius="5" Padding="7,3"
+                                Background="#22D9534F">
+                          <TextBlock Text="BOOT-CRITICAL" FontSize="10.5" FontWeight="Bold"
+                                     Foreground="{StaticResource RedLight}" />
+                        </Border>
+                        <Border IsVisible="{Binding IsUnsigned}" CornerRadius="5" Padding="7,3"
+                                Background="#22E0A62B">
+                          <TextBlock Text="UNSIGNED" FontSize="10.5" FontWeight="Bold"
+                                     Foreground="{StaticResource Amber}" />
+                        </Border>
+                      </StackPanel>
+                      <TextBlock Text="{Binding SubTitle}" FontSize="12" Margin="0,3,0,0"
+                                 Foreground="{StaticResource Txt3}" />
+                    </StackPanel>
+
+                    <TextBlock Grid.Column="1" Text="{Binding Version}" FontSize="12"
+                               FontFamily="{StaticResource MonoFont}" Foreground="{StaticResource Txt2}"
+                               VerticalAlignment="Center" />
+
+                    <StackPanel Grid.Column="2" VerticalAlignment="Center">
+                      <TextBlock Text="{Binding DriverDate}" FontSize="12"
+                                 FontFamily="{StaticResource MonoFont}" Foreground="{StaticResource Txt3}" />
+                      <TextBlock Text="{Binding AgeNote}" FontSize="11" Foreground="{StaticResource Txt4}" />
+                    </StackPanel>
+
+                    <TextBlock Grid.Column="3" Text="{Binding StatusText}" FontSize="10.5" FontWeight="Bold"
+                               HorizontalAlignment="Right" VerticalAlignment="Center"
+                               Foreground="{StaticResource Txt2}" />
+                  </Grid>
+                </Border>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+
+          <TextBlock IsVisible="{Binding !DeviceCount}" Padding="17,22" FontSize="12.5"
+                     Foreground="{StaticResource Txt3}" TextWrapping="Wrap"
+                     Text="Nothing scanned yet. Press Scan — it reads your devices and asks Windows Update what it has. Nothing is installed and nothing is changed." />
+        </StackPanel>
+      </Border>
+    </StackPanel>
+  </ScrollViewer>
+</UserControl>
