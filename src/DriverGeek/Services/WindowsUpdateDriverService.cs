@@ -162,8 +162,13 @@ public sealed class WindowsUpdateDriverService
     private static void Set(object target, string name, object value) =>
         target.GetType().InvokeMember(name, System.Reflection.BindingFlags.SetProperty, null, target, [value]);
 
+    // IUpdateCollection.Item is a parameterised property rather than a method, and asking for it
+    // as a method returns DISP_E_MEMBERNOTFOUND. Passing both flags lets either shape answer.
     private static object? Call(object target, string name, params object[] args) =>
-        target.GetType().InvokeMember(name, System.Reflection.BindingFlags.InvokeMethod, null, target, args);
+        target.GetType().InvokeMember(
+            name,
+            System.Reflection.BindingFlags.InvokeMethod | System.Reflection.BindingFlags.GetProperty,
+            null, target, args);
 
     private static void Release(object? o)
     {
