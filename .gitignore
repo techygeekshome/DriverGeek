@@ -427,3 +427,7 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# TechyGeeksHome build outputs
+dist/
+publish/
