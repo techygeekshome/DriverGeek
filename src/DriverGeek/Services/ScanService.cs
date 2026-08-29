@@ -27,10 +27,16 @@ public sealed class ScanService
     private readonly DriverInventoryService _inventory = new();
     private readonly WindowsUpdateDriverService _updates = new();
 
-    public ScanResult Run(AppSettings settings)
+    public ScanResult Run(AppSettings settings, IProgress<string>? progress = null)
     {
+        progress?.Report("Reading the driver behind every device on this PC\u2026");
         var devices = _inventory.Read(settings.IncludeAbsentDevices);
+
+        progress?.Report($"{devices.Count} devices read. Asking Windows Update what it has for them \u2014 " +
+                         "this is the slow part and can take a few minutes.");
         var updates = _updates.Search(settings.IncludeOptionalUpdates, out var error);
+
+        progress?.Report("Matching what Windows Update offered against what is installed\u2026");
 
         var scanned = devices
             .Select(d => new ScannedDevice(d, StalenessPolicy.BestUpdateFor(d, updates),
