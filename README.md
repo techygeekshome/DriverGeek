@@ -6,13 +6,14 @@
 
 **See every driver on your PC — and the updates Windows Update keeps hidden.**
 
-[![Status](https://img.shields.io/badge/status-in%20development-b7791f)](https://github.com/techygeekshome/DriverGeek)
+[![Build](https://github.com/techygeekshome/DriverGeek/actions/workflows/build.yml/badge.svg)](https://github.com/techygeekshome/DriverGeek/actions/workflows/build.yml)
+[![Version](https://img.shields.io/github/v/release/techygeekshome/DriverGeek?label=version&color=4c9bff)](https://github.com/techygeekshome/DriverGeek/releases)
 [![Platform](https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-0078d4)](#getting-it-running)
 [![License](https://img.shields.io/badge/License-GPL--3.0-blue)](LICENSE)
 [![Made by TechyGeeksHome](https://img.shields.io/badge/made%20by-TechyGeeksHome-b191f2)](https://techygeekshome.info)
 [![Support on Ko-fi](https://img.shields.io/badge/support-Ko--fi-ff5e5b)](https://ko-fi.com/techygeekshome)
 
-[What it does](#what-it-does) · [Screenshots](#screenshots) · [What it refuses to do](#what-it-refuses-to-do) · [Getting it running](#getting-it-running) · [Build from source](#build-from-source) · [Licence](#licence)
+[Download](#download--run) · [What it does](#what-it-does) · [Screenshots](#screenshots) · [What it refuses to do](#what-it-refuses-to-do) · [Build from source](#build-from-source) · [Licence](#licence)
 
 </div>
 
@@ -51,6 +52,8 @@ This category has a reputation, and it was earned. So, plainly:
   manufacturer's support page for that device.
 - 📖 **1.0 reads and reports. It does not install.** Everything above is a read of your machine
   and a question put to Windows Update. Nothing is downloaded and nothing is changed.
+- ℹ️ **About and Check for updates** — the same two buttons every TechyGeeksHome tool has, at the
+  foot of the sidebar. The update check runs only when you press it.
 - 🚩 **Marks what an install would refuse** — boot-critical and storage controller drivers are
   labelled on the list, because when the install path lands they will never be replaced.
 
@@ -79,11 +82,42 @@ There is no "update all", and there never will be one on a schedule.
 
 </div>
 
-## Getting it running
+## Download & run
 
-DriverGeek has not had a public release yet, so there is nothing to download at the moment. When
-there is, this section will carry the installer and the portable build, both with published
-SHA-256 hashes.
+**[⬇ Download DriverGeek 1.0](https://github.com/techygeekshome/DriverGeek/releases/latest)** — Windows 10 or 11, 64-bit.
+
+| File | What it is | Size |
+| --- | --- | --- |
+| `DriverGeekSetup.exe` | Installer. Start-menu entry, uninstalls cleanly. | 29.2 MB |
+| `DriverGeek-portable.exe` | One file. Run it from anywhere, install nothing. | 86.9 MB |
+| `SHA256SUMS.txt` | Checksums for both, published with every release. | — |
+
+Nothing else needs installing — .NET is inside the executable.
+
+To verify what you downloaded, in PowerShell:
+
+```powershell
+Get-FileHash .\DriverGeekSetup.exe -Algorithm SHA256
+```
+
+and compare it against the line in `SHA256SUMS.txt`.
+
+> **First run:** Windows may show a blue *"Windows protected your PC"* box. That is SmartScreen
+> reacting to an executable it has not seen before, not a detection — DriverGeek is not code-signed,
+> because a certificate costs more per year than this whole range earns. Click **More info** →
+> **Run anyway**. The published SHA-256 is there so you never have to take that on trust.
+
+## On the one network call
+
+DriverGeek makes exactly one network request, and only when you press **Check for updates**: a
+single unauthenticated GET to GitHub's public releases API, asking whether there is a newer tag
+than the build you are running. It sends no machine identifier, no record of what you scanned
+and no usage data — GitHub sees an IP address and a user agent, exactly as it would if you
+opened the releases page in a browser. It never downloads or installs anything; if there is a
+newer version it offers you the release page, and that is all.
+
+Nothing is requested when the app starts. Open it, use it, close it, and it makes no network
+connection at all.
 
 ## Build from source
 
