@@ -15,6 +15,11 @@
 //
 //  Keep it in step with the hub page at techygeekshome.info/geek-tools/, which
 //  is what a visitor sees. The blurbs below are that page's own wording.
+//
+//  APPLICATIONS ONLY. This list is rendered as a row of buttons in the About
+//  window, one per app, each opening that app's own page on the website. Things
+//  that are not our software - the Java 8 MSI archive, for one - do not belong
+//  in it, however much they live on the same site.
 // -----------------------------------------------------------------------------
 
 using System;
@@ -77,13 +82,7 @@ public static class Family
             "Ultimate Settings Panel",
             "250+ Windows settings, tools and commands in one searchable panel.",
             "https://techygeekshome.info/ultimate-settings-panel-online/",
-            "Ultimate-Settings-Panel"),
-
-        new FamilyApp(
-            "Java 8 MSI Installers",
-            "Oracle Java 8 extracted as MSIs, archived version by version, for silent deployment.",
-            "https://techygeekshome.info/java-8-msi-installers/",
-            null)
+            "Ultimate-Settings-Panel")
     };
 
     /// <summary>

@@ -51,81 +51,61 @@ public partial class AboutWindow : Window
         CheckUpdatesButton.Click += async (_, _) => await CheckAsync();
 
         BuildFamilyList(app.GitHubRepo);
+        GitHubProfileButton.Click += (_, _) => AppInfo.OpenUrl(GitHubProfileUrl);
         FamilyHubButton.Click += (_, _) => AppInfo.OpenUrl(Family.HubUrl);
+    }
 
-        if (app.Credits.Count == 0)
+    /// <summary>The whole range on GitHub, for the button that squares the grid off.</summary>
+    private const string GitHubProfileUrl = "https://github.com/techygeekshome";
+
+    /// <summary>
+    /// Renders the rest of the range as buttons, with this app removed from its own list.
+    ///
+    /// Every button carries the app's name and opens ITS PAGE ON THE WEBSITE, not its
+    /// repository - someone reading an About box wants the product, not the source.
+    ///
+    /// The grid is two columns, so an odd number of apps would leave a gap. When that
+    /// happens the GitHub profile button fills it; when the count is even it drops below
+    /// instead, full width and in the accent colour, the way the Ko-fi button sits above.
+    /// </summary>
+    private void BuildFamilyList(string ownRepo)
+    {
+        var others = Family.Others(ownRepo);
+        var oddCount = others.Count % 2 == 1;
+
+        for (var i = 0; i < others.Count; i++)
         {
-            CreditsSection.IsVisible = false;
+            FamilyGrid.Children.Add(FamilyButton(others[i].Name, others[i].ProductUrl, i));
         }
-        else
+
+        if (oddCount)
         {
-            foreach (var credit in app.Credits)
-            {
-                var button = new Button
-                {
-                    Content = $"{credit.Name} — {credit.Licence}",
-                    Background = Brushes.Transparent,
-                    BorderThickness = default,
-                    Foreground = new SolidColorBrush(Color.Parse("#9ca3af")),
-                    Padding = new Avalonia.Thickness(0, 1),
-                    FontSize = 12,
-                    HorizontalAlignment = HorizontalAlignment.Left,
-                    Cursor = new Cursor(StandardCursorType.Hand)
-                };
-                var url = credit.Url;
-                button.Click += (_, _) => AppInfo.OpenUrl(url);
-                CreditsList.Children.Add(button);
-            }
+            FamilyGrid.Children.Add(
+                FamilyButton("All our code on GitHub", GitHubProfileUrl, others.Count));
+            GitHubProfileButton.IsVisible = false;
         }
     }
 
     /// <summary>
-    /// Renders the rest of the range, with this app removed from its own list.
-    ///
-    /// The list is data in <see cref="Family"/> rather than markup here, so adding a tool to
-    /// the range is one edit rather than one edit per application. Every row opens the product
-    /// page in the browser; nothing is downloaded and nothing phones home to build this - the
-    /// list ships inside the executable.
+    /// One cell of the range grid, styled like the Website and Product page buttons above it.
+    /// The margin alternates so the gutter between the columns matches the rows.
     /// </summary>
-    private void BuildFamilyList(string ownRepo)
+    private static Button FamilyButton(string text, string url, int index)
     {
-        foreach (var app in Family.Others(ownRepo))
+        var button = new Button
         {
-            var name = new TextBlock
-            {
-                Text = app.Name,
-                FontSize = 12.5,
-                FontWeight = FontWeight.SemiBold,
-                Foreground = new SolidColorBrush(Color.Parse("#38bdf8"))
-            };
+            Content = text,
+            Classes = { "ghost" },
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            HorizontalContentAlignment = HorizontalAlignment.Center,
+            Cursor = new Cursor(StandardCursorType.Hand),
+            Margin = index % 2 == 0
+                ? new Avalonia.Thickness(0, 0, 4, 8)
+                : new Avalonia.Thickness(4, 0, 0, 8)
+        };
 
-            var blurb = new TextBlock
-            {
-                Text = app.Blurb,
-                FontSize = 11.5,
-                Foreground = new SolidColorBrush(Color.Parse("#9ca3af")),
-                TextWrapping = TextWrapping.Wrap
-            };
-
-            var stack = new StackPanel { Spacing = 1 };
-            stack.Children.Add(name);
-            stack.Children.Add(blurb);
-
-            var button = new Button
-            {
-                Content = stack,
-                Background = Brushes.Transparent,
-                BorderThickness = default,
-                Padding = new Avalonia.Thickness(0, 5),
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                HorizontalContentAlignment = HorizontalAlignment.Left,
-                Cursor = new Cursor(StandardCursorType.Hand)
-            };
-
-            var url = app.ProductUrl;
-            button.Click += (_, _) => AppInfo.OpenUrl(url);
-            FamilyList.Children.Add(button);
-        }
+        button.Click += (_, _) => AppInfo.OpenUrl(url);
+        return button;
     }
 
     /// <summary>Swaps the placeholder monogram for the real app icon when one is supplied.</summary>

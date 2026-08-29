@@ -115,18 +115,24 @@
 
     <Border Background="#111113" BorderBrush="#1f1f22" BorderThickness="1"
             CornerRadius="16" Padding="18">
-      <StackPanel Spacing="10">
+      <StackPanel Spacing="8">
         <TextBlock Classes="body" Text="More from TechyGeeksHome"
-                   FontWeight="SemiBold" Foreground="#e5e7eb" />
-        <StackPanel x:Name="FamilyList" Spacing="2" />
-        <Button x:Name="FamilyHubButton" Classes="link" Content="See all the free tools" />
+                   FontWeight="SemiBold" Foreground="#e5e7eb" Margin="0,0,0,2" />
+
+        <!--
+          One button per app, filled in by BuildFamilyList. Two columns, and the GitHub
+          profile button squares the grid off when the number of apps is odd - otherwise it
+          drops below as the full-width button instead.
+        -->
+        <UniformGrid x:Name="FamilyGrid" Columns="2" />
+
+        <Button x:Name="GitHubProfileButton" Classes="accent" Content="All our code on GitHub"
+                HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" />
+
+        <Button x:Name="FamilyHubButton" Classes="link" Content="See all the free tools"
+                HorizontalAlignment="Center" Margin="0,2,0,0" />
       </StackPanel>
     </Border>
-
-    <StackPanel x:Name="CreditsSection" Spacing="6">
-      <TextBlock Classes="body" Text="Built with" FontWeight="SemiBold" Foreground="#e5e7eb" />
-      <StackPanel x:Name="CreditsList" Spacing="1" />
-    </StackPanel>
 
     <TextBlock x:Name="UpdateStatusText" Classes="body" Text="" />
 
