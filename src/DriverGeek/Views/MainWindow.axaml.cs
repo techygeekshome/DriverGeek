@@ -1,7 +1,6 @@
 using System;
 using System.Threading.Tasks;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
 using DriverGeek.ViewModels;
 using TechyGeeksHome.Common;
 
@@ -11,10 +10,23 @@ public partial class MainWindow : Window
 {
     public MainWindow()
     {
-        AvaloniaXamlLoader.Load(this);
+        // InitializeComponent, NOT AvaloniaXamlLoader.Load. They are not interchangeable:
+        // Load puts the XAML on the window but leaves every x:Name field null, so the two
+        // buttons below were null and wiring them threw before the window was ever shown.
+        // It compiled cleanly because the fields exist - they are simply never assigned.
+        // That is what stopped 1.0.1 opening at all.
+        InitializeComponent();
 
-        AboutButton.Click += (_, _) => ShowAbout();
-        CheckUpdatesButton.Click += async (_, _) => await CheckForUpdatesAsync();
+        // Belt and braces: a null here should cost the About button, not the application.
+        try
+        {
+            AboutButton.Click += (_, _) => ShowAbout();
+            CheckUpdatesButton.Click += async (_, _) => await CheckForUpdatesAsync();
+        }
+        catch (Exception ex)
+        {
+            DriverGeek.Services.Log.Write("Could not wire the About buttons: " + ex);
+        }
     }
 
     private void ShowAbout()
