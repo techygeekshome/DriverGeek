@@ -25,16 +25,16 @@ almost nobody looks there. DriverGeek lists every device on the machine with the
 actually running — version, date, provider, whether it is signed — and puts the updates Windows
 is already holding for you on the same screen.
 
-For everything else, it tells you what you have and links to the manufacturer's own support
-page. It does not host drivers, it does not scrape vendor sites, and it does not ship a driver
-pack.
+Every update it offers comes from Windows Update and nowhere else. It does not host drivers,
+it does not scrape vendor sites, and it does not ship a driver pack.
 
 ## What it refuses to do
 
 This category has a reputation, and it was earned. So, plainly:
 
 - **No driver pack, no third-party driver hosting.** Updates come from Windows Update, which is
-  WHQL-signed and already trusted by your machine. Anything else is a link to the vendor.
+  WHQL-signed and already trusted by your machine. If Windows Update does not have a newer
+  driver for a device, DriverGeek says so and stops there.
 - **No "247 issues found!"** An old driver that works is not a problem. DriverGeek distinguishes
   *there is a newer driver available from Windows Update* from *this driver is old*, and it will
   tell you when the answer is that nothing needs doing.
