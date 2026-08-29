@@ -1,10 +1,21 @@
+using System.Diagnostics;
 using CoreSchedule = DriverGeek.Core.Services.ScanSchedule;
 using DriverGeek.Services;
 
 namespace DriverGeek.ViewModels;
 
-public sealed class SettingsViewModel(SettingsService settings) : ObservableObject
+public sealed class SettingsViewModel : ObservableObject
 {
+    private readonly SettingsService settings;
+
+    public SettingsViewModel(SettingsService store)
+    {
+        settings = store;
+        OpenBackupFolder = new RelayCommand(ShowBackupFolder);
+    }
+
+    public RelayCommand OpenBackupFolder { get; }
+
     public IReadOnlyList<string> ScheduleOptions => CoreSchedule.Options;
 
     public string ScanSchedule
@@ -69,4 +80,21 @@ public sealed class SettingsViewModel(SettingsService settings) : ObservableObje
     }
 
     public string SystemProtectionStatus => SystemProtectionProbe.Describe();
+
+    public string BackupFolder => string.IsNullOrWhiteSpace(settings.Current.BackupFolder)
+        ? AppPaths.DefaultBackupFolder
+        : settings.Current.BackupFolder;
+
+    private void ShowBackupFolder()
+    {
+        try
+        {
+            Directory.CreateDirectory(BackupFolder);
+            Process.Start(new ProcessStartInfo(BackupFolder) { UseShellExecute = true });
+        }
+        catch (Exception ex)
+        {
+            Log.Write("Could not open the backup folder: " + ex.Message);
+        }
+    }
 }
