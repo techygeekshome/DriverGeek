@@ -49,8 +49,6 @@ This category has a reputation, and it was earned. So, plainly:
   and whether the driver is signed.
 - ⬇️ **Surfaces optional driver updates** — the ones Windows Update has but does not offer you.
 - 🏷️ **Honest staleness** — flags drivers with a newer version available, not merely old ones.
-- 🔗 **Vendor links** — for hardware Windows Update does not cover, a direct link to the
-  manufacturer's support page for that device.
 - 🛠️ **Installs the ones you tick** — a System Restore point first, then a copy of the driver
   you are running now written to disk, then Windows Update does the install. One device at a
   time, and it stops rather than carries on if any of that fails.
