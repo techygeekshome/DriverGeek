@@ -9,10 +9,35 @@
       <Border Background="{StaticResource Panel2}" BorderBrush="{StaticResource Line}"
               BorderThickness="1" CornerRadius="7" Padding="16,14">
         <StackPanel>
-          <TextBlock Text="DriverGeek 1.0 reports updates. It does not install them."
+          <TextBlock Text="Tick what you want, then install it."
                      FontWeight="SemiBold" FontSize="13" />
           <TextBlock TextWrapping="Wrap" FontSize="12" Margin="0,3,0,0" Foreground="{StaticResource Txt3}"
-                     Text="Every update below is a WHQL-signed package Windows Update already holds for this machine. The ones marked HIDDEN AS OPTIONAL are the ones Windows will never offer you on its own — they sit under Settings, Windows Update, Advanced options, Optional updates." />
+                     Text="Every update below is a WHQL-signed package Windows Update already holds for this machine. The ones marked HIDDEN AS OPTIONAL are the ones Windows will never offer you on its own — they sit under Settings, Windows Update, Advanced options, Optional updates. Before any of them is installed, DriverGeek takes a System Restore point and writes a copy of the driver you are running now to disk." />
+        </StackPanel>
+      </Border>
+
+      <Border IsVisible="{Binding NeedsElevation}" Background="{StaticResource Panel2}"
+              BorderBrush="{StaticResource Amber}" BorderThickness="1" CornerRadius="7" Padding="16,14">
+        <Grid ColumnDefinitions="*,Auto">
+          <StackPanel MaxWidth="700" HorizontalAlignment="Left">
+            <TextBlock Text="Installing needs administrator rights" FontWeight="SemiBold" />
+            <TextBlock TextWrapping="Wrap" FontSize="12" Margin="0,3,0,0" Foreground="{StaticResource Txt3}"
+                       Text="Scanning does not, which is why DriverGeek does not ask for them on startup. Restart it as administrator when you want to install something." />
+          </StackPanel>
+          <Button Grid.Column="1" VerticalAlignment="Center" Margin="16,0,0,0"
+                  Command="{Binding RestartElevatedCommand}"
+                  Background="{StaticResource Panel}" BorderBrush="{StaticResource Line}"
+                  BorderThickness="1" CornerRadius="7" Padding="13,8" FontSize="12"
+                  Foreground="{StaticResource Txt}" Content="Restart as administrator" />
+        </Grid>
+      </Border>
+
+      <Border IsVisible="{Binding RebootRequired}" Background="{StaticResource Panel2}"
+              BorderBrush="{StaticResource Amber}" BorderThickness="1" CornerRadius="7" Padding="16,14">
+        <StackPanel>
+          <TextBlock Text="Windows wants a restart" FontWeight="SemiBold" />
+          <TextBlock TextWrapping="Wrap" FontSize="12" Margin="0,3,0,0" Foreground="{StaticResource Txt3}"
+                     Text="One of the drivers will not be fully in place until the machine restarts. DriverGeek will not do that for you — finish what you are doing and restart when it suits." />
         </StackPanel>
       </Border>
 
@@ -21,8 +46,9 @@
         <StackPanel>
           <Border BorderBrush="{StaticResource Line}" BorderThickness="0,0,0,1" Padding="17,13">
             <Grid ColumnDefinitions="*,Auto">
-              <TextBlock Text="Available from Windows Update" FontWeight="SemiBold" />
+              <TextBlock Text="Available from Windows Update" FontWeight="SemiBold" VerticalAlignment="Center" />
               <TextBlock Grid.Column="1" FontSize="11.5" Foreground="{StaticResource Txt3}"
+                         VerticalAlignment="Center"
                          Text="{Binding OptionalCount, StringFormat='{}{0} hidden as optional'}" />
             </Grid>
           </Border>
@@ -31,20 +57,28 @@
             <ItemsControl.ItemTemplate>
               <DataTemplate x:DataType="vm:UpdateRowViewModel">
                 <Border BorderBrush="{StaticResource LineSoft}" BorderThickness="0,0,0,1" Padding="17,14">
-                  <Grid ColumnDefinitions="*,190,90">
-                    <StackPanel>
+                  <Grid ColumnDefinitions="30,*,170,80">
+                    <CheckBox Grid.Column="0" VerticalAlignment="Top"
+                              IsVisible="{Binding CanBeInstalled}"
+                              IsChecked="{Binding IsSelected, Mode=TwoWay}" />
+
+                    <StackPanel Grid.Column="1">
                       <TextBlock Text="{Binding DeviceName}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
                       <TextBlock FontSize="12" Margin="0,3,0,0" Foreground="{StaticResource Txt3}"
                                  Text="{Binding Change}" FontFamily="{StaticResource MonoFont}" />
                       <TextBlock FontSize="12" Margin="0,3,0,0" TextWrapping="Wrap"
+                                 IsVisible="{Binding HasActionNote}"
                                  Foreground="{StaticResource Txt4}" Text="{Binding ActionNote}" />
+                      <TextBlock FontSize="12" Margin="0,4,0,0" TextWrapping="Wrap"
+                                 IsVisible="{Binding HasProgress}"
+                                 Foreground="{StaticResource BlueLight}" Text="{Binding Progress}" />
                     </StackPanel>
 
-                    <TextBlock Grid.Column="1" Text="{Binding Label}" FontSize="10.5" FontWeight="Bold"
+                    <TextBlock Grid.Column="2" Text="{Binding Label}" FontSize="10.5" FontWeight="Bold"
                                HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,2,0,0"
                                Foreground="{StaticResource Txt2}" />
 
-                    <TextBlock Grid.Column="2" Text="{Binding Size}" FontSize="12"
+                    <TextBlock Grid.Column="3" Text="{Binding Size}" FontSize="12"
                                FontFamily="{StaticResource MonoFont}" HorizontalAlignment="Right"
                                VerticalAlignment="Top" Margin="0,2,0,0" Foreground="{StaticResource Txt3}" />
                   </Grid>
@@ -53,9 +87,39 @@
             </ItemsControl.ItemTemplate>
           </ItemsControl>
 
+          <Border IsVisible="{Binding UpdateCount}" Padding="17,14">
+            <Grid ColumnDefinitions="*,Auto">
+              <TextBlock VerticalAlignment="Center" FontSize="12" TextWrapping="Wrap"
+                         MaxWidth="640" HorizontalAlignment="Left"
+                         Foreground="{StaticResource Txt3}"
+                         Text="Nothing installs on its own, one at a time, and never on a schedule. Boot-critical devices have no tick box at all." />
+              <Button Grid.Column="1" Command="{Binding InstallCommand}" VerticalAlignment="Center"
+                      Content="{Binding InstallButtonText}"
+                      Background="{StaticResource Blue}" Foreground="{StaticResource Txt}"
+                      BorderThickness="0" CornerRadius="7" Padding="15,8" FontSize="13" />
+            </Grid>
+          </Border>
+
           <TextBlock IsVisible="{Binding !UpdateCount}" Padding="17,22" FontSize="12.5"
                      Foreground="{StaticResource Txt3}" TextWrapping="Wrap"
                      Text="No driver updates found. That is a real answer, not a failure — most machines, most of the time, have nothing newer waiting. DriverGeek will not invent a list to look busy." />
+        </StackPanel>
+      </Border>
+
+      <Border IsVisible="{Binding HasInstallLog}" Background="{StaticResource Panel}"
+              BorderBrush="{StaticResource Line}" BorderThickness="1" CornerRadius="7">
+        <StackPanel>
+          <Border BorderBrush="{StaticResource Line}" BorderThickness="0,0,0,1" Padding="17,13">
+            <TextBlock Text="What happened" FontWeight="SemiBold" />
+          </Border>
+          <ItemsControl ItemsSource="{Binding InstallLog}" Padding="17,12">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate x:DataType="x:String">
+                <TextBlock Text="{Binding}" FontSize="12" TextWrapping="Wrap" Margin="0,2"
+                           FontFamily="{StaticResource MonoFont}" Foreground="{StaticResource Txt3}" />
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
         </StackPanel>
       </Border>
     </StackPanel>

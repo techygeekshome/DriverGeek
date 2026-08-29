@@ -40,7 +40,8 @@ This category has a reputation, and it was earned. So, plainly:
   tell you when the answer is that nothing needs doing.
 - **No scan-then-pay.** There is no paid tier, no upsell and nothing withheld.
 - **No telemetry, no account, no bundled offers.**
-- **It never installs anything on its own.** No automatic mode, no scheduled installs.
+- **It never installs anything on its own.** No automatic mode, no scheduled installs, no
+  "update all" button. Every install is one device you ticked, while you are sat there.
 
 ## What it does
 
@@ -50,19 +51,30 @@ This category has a reputation, and it was earned. So, plainly:
 - 🏷️ **Honest staleness** — flags drivers with a newer version available, not merely old ones.
 - 🔗 **Vendor links** — for hardware Windows Update does not cover, a direct link to the
   manufacturer's support page for that device.
-- 📖 **1.0 reads and reports. It does not install.** Everything above is a read of your machine
-  and a question put to Windows Update. Nothing is downloaded and nothing is changed.
+- 🛠️ **Installs the ones you tick** — a System Restore point first, then a copy of the driver
+  you are running now written to disk, then Windows Update does the install. One device at a
+  time, and it stops rather than carries on if any of that fails.
 - ℹ️ **About and Check for updates** — the same two buttons every TechyGeeksHome tool has, at the
   foot of the sidebar. The update check runs only when you press it.
-- 🚩 **Marks what an install would refuse** — boot-critical and storage controller drivers are
-  labelled on the list, because when the install path lands they will never be replaced.
+- 🚩 **Refuses the ones that can brick a machine** — boot-critical and storage controller
+  drivers are listed and labelled, and have no tick box at all. A storage driver that goes wrong
+  is an unbootable machine, not a failed update.
 
-### Where 1.0 stops
+### What has to be true before anything is replaced
 
-Shipping the reading half first is deliberate: it is most of the value with none of the risk.
-When installing arrives it exports the current driver to disk first, refuses to run at all if
-System Protection is off, takes a restore point, and does one device at a time — ticked by you.
-There is no "update all", and there never will be one on a schedule.
+None of these are settings, and none of them can be turned off:
+
+- The app is running as administrator. Scanning does not need it, so it does not ask on startup.
+- System Protection is on for the system drive, and a restore point actually exists. If Windows
+  refuses to take a second one inside its own 24-hour limit, the one already taken today is used
+  — DriverGeek does not change that Windows setting behind your back.
+- The driver you are running now has been written to disk, under
+  `C:\ProgramData\DriverGeek\backup`, along with a text file saying exactly what it was.
+- The device is not boot-critical.
+- You ticked it, in this session, on this screen.
+
+If any of those is not true, the install is refused and says which one — before anything on the
+machine has been touched.
 
 ## Screenshots
 
@@ -76,7 +88,7 @@ There is no "update all", and there never will be one on a schedule.
 
 <img src="docs/screenshots/updates.png" alt="The Updates screen" width="820">
 
-**Settings** — scanning options, and a plain statement of what 1.0 will not do.
+**Settings** — scanning options, where old drivers are kept, and what the install path will not do.
 
 <img src="docs/screenshots/settings.png" alt="The Settings screen" width="820">
 
@@ -84,7 +96,7 @@ There is no "update all", and there never will be one on a schedule.
 
 ## Download & run
 
-**[⬇ Download DriverGeek 1.0](https://github.com/techygeekshome/DriverGeek/releases/latest)** — Windows 10 or 11, 64-bit.
+**[⬇ Download DriverGeek](https://github.com/techygeekshome/DriverGeek/releases/latest)** — Windows 10 or 11, 64-bit.
 
 | File | What it is | Size |
 | --- | --- | --- |
