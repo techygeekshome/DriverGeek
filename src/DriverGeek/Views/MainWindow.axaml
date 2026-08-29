@@ -94,10 +94,18 @@
             <TextBlock Text="{Binding StatusLine}" FontSize="12.5" Margin="0,4,0,0"
                        Foreground="{StaticResource Txt3}" TextWrapping="Wrap" />
           </StackPanel>
-          <Button Grid.Column="1" Command="{Binding ScanCommand}" VerticalAlignment="Center"
-                  Background="{StaticResource Blue}" Foreground="{StaticResource Txt}"
-                  BorderThickness="0" CornerRadius="7" Padding="15,8" FontSize="13"
-                  Content="Scan" />
+          <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="10" VerticalAlignment="Center">
+            <!-- A spinner next to the button, because the scan can sit for minutes on the Windows
+                 Update call and a button that does nothing visible reads as a crash. -->
+            <ProgressBar IsIndeterminate="True" IsVisible="{Binding Busy}" Width="120" Height="4"
+                         Foreground="{StaticResource BlueLight}" Background="{StaticResource Line2}"
+                         VerticalAlignment="Center" />
+            <Button Command="{Binding ScanCommand}" VerticalAlignment="Center" MinWidth="96"
+                    Background="{StaticResource Blue}" Foreground="{StaticResource Txt}"
+                    BorderThickness="0" CornerRadius="7" Padding="15,8" FontSize="13"
+                    HorizontalContentAlignment="Center"
+                    Content="{Binding ScanButtonText}" />
+          </StackPanel>
         </Grid>
       </Border>
 
