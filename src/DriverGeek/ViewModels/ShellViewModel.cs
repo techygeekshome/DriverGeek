@@ -71,6 +71,7 @@ public sealed class ShellViewModel : ObservableObject
             if (!Set(ref _busy, value)) return;
             ScanCommand.RaiseCanExecuteChanged();
             InstallCommand.RaiseCanExecuteChanged();
+            Raise(nameof(ScanButtonText));
         }
     }
 
@@ -98,6 +99,9 @@ public sealed class ShellViewModel : ObservableObject
 
     public int SelectedCount => Updates.Count(u => u.IsSelected);
     public bool AnySelected => SelectedCount > 0;
+
+    /// <summary>The Scan button says what it is doing, because a five-minute silent button looks broken.</summary>
+    public string ScanButtonText => Busy ? "Working\u2026" : "Scan";
 
     public string InstallButtonText => SelectedCount switch
     {
@@ -201,13 +205,15 @@ public sealed class ShellViewModel : ObservableObject
         SearchError = null;
         InstallLog.Clear();
         Raise(nameof(HasInstallLog));
-        StatusLine = "Reading devices and asking Windows Update… this can take a few minutes.";
+        StatusLine = "Starting the scan…";
 
         try
         {
             // Off the UI thread: the online Windows Update search can take minutes, and a
-            // blocked UI thread is what Windows reports as "not responding".
-            var result = await Task.Run(() => _scan.Run(_settings.Current));
+            // blocked UI thread is what Windows reports as "not responding". Progress comes back
+            // on the UI thread, so the status line moves while it works.
+            var progress = new Progress<string>(line => StatusLine = line);
+            var result = await Task.Run(() => _scan.Run(_settings.Current, progress));
 
             Devices.Clear();
             foreach (var d in result.Devices) Devices.Add(new DeviceRowViewModel(d));
