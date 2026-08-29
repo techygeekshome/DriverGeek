@@ -17,6 +17,9 @@ public static class AppInfo
             ? $"{v.Major}.{v.Minor}.{v.Build}"
             : "1.0.0";
 
-    /// <summary>Shown in the sidebar. The only service contacted is the local Windows Update agent.</summary>
-    public const string NetworkPromise = "Nothing leaves this PC.";
+    /// <summary>
+    /// Shown in the sidebar. It has to stay true: the only request this app ever makes is the
+    /// one behind Check for updates, and it only goes to GitHub's public releases API.
+    /// </summary>
+    public const string NetworkPromise = "Nothing leaves this PC, apart from Check for updates.";
 }

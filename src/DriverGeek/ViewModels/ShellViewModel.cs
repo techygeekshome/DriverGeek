@@ -61,6 +61,12 @@ public sealed class ShellViewModel : ObservableObject
     }
 
     public string StatusLine { get => _statusLine; private set => Set(ref _statusLine, value); }
+
+    /// <summary>
+    /// Lets the window put something in the status line that did not come from a scan - the
+    /// update check is the only caller. The setter stays private so nothing else can.
+    /// </summary>
+    public void SetStatus(string message) => StatusLine = message;
     public string? SearchError { get => _searchError; private set => Set(ref _searchError, value); }
     public bool HasSearchError => !string.IsNullOrEmpty(SearchError);
 

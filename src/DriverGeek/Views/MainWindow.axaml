@@ -32,6 +32,20 @@
       <Setter Property="Foreground" Value="{StaticResource Txt}" />
       <Setter Property="FontWeight" Value="SemiBold" />
     </Style>
+    <Style Selector="Button.ghost">
+      <Setter Property="Background" Value="{StaticResource Panel}" />
+      <Setter Property="BorderBrush" Value="{StaticResource Line}" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="7" />
+      <Setter Property="Foreground" Value="{StaticResource Txt2}" />
+      <Setter Property="HorizontalAlignment" Value="Stretch" />
+      <Setter Property="HorizontalContentAlignment" Value="Center" />
+      <Setter Property="Padding" Value="10,7" />
+      <Setter Property="FontSize" Value="11" />
+    </Style>
+    <Style Selector="Button.ghost:pointerover /template/ ContentPresenter">
+      <Setter Property="Background" Value="{StaticResource PanelHover}" />
+    </Style>
   </Window.Styles>
 
   <Grid ColumnDefinitions="212,*">
@@ -63,6 +77,10 @@
             <TextBlock Text="{Binding NetworkPromise}" FontSize="12" TextWrapping="Wrap"
                        Foreground="{StaticResource Txt2}" />
           </Border>
+          <StackPanel Spacing="6">
+            <Button x:Name="CheckUpdatesButton" Classes="ghost" Content="Check for updates" />
+            <Button x:Name="AboutButton" Classes="ghost" Content="About" />
+          </StackPanel>
           <TextBlock Text="{Binding VersionText}" FontSize="11" Margin="4,0"
                      Foreground="{StaticResource Txt4}" />
         </StackPanel>
