@@ -11,6 +11,7 @@ ClassTests.Run();
 CriteriaTests.Run();
 StalenessTests.Run();
 GateTests.Run();
+InstallFlowTests.Run();
 ScheduleTests.Run();
 ByteSizeTests.Run();
 
