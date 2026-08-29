@@ -29,8 +29,7 @@ public static class SystemProtectionProbe
     public static string Describe() => IsEnabled() switch
     {
         true => "On for the system drive. A restore point can be created before a driver is replaced.",
-        false => "Turned off. When the install path arrives in 1.1, a driver install will be refused rather " +
-                 "than risked until this is switched back on.",
+        false => "Turned off. A driver install is refused rather than risked until this is switched back on.",
         _ => "Could not be read on this machine."
     };
 }
