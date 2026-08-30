@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>drivergeek</id>
+    <version>1.1.1</version>
+    <title>DriverGeek</title>
+    <authors>TechyGeeksHome</authors>
+    <owners>techygeekshome</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">GPL-3.0-or-later</license>
+    <projectUrl>https://techygeekshome.info/drivergeek/</projectUrl>
+    <iconUrl>https://cdn.jsdelivr.net/gh/techygeekshome/DriverGeek@40278d5b3a7cc3f5941a20e8e4e9e840992e5613/icons/drivergeek.png</iconUrl>
+    <description>DriverGeek lists every driver on the machine with its version, date and publisher, and surfaces the
+driver updates Windows Update keeps tucked away under optional updates.
+
+* Full inventory of installed drivers, sortable and searchable
+* Shows the optional driver updates Windows offers but does not push
+* Export the inventory, which is what you actually want before a rebuild
+* Does not download drivers from third-party sites - everything comes from Windows Update
+* No account, no adverts, no bundled offers
+
+Open source under GPL-3.0. The .NET 8 runtime is bundled, so there is nothing to install first.</description>
+    <summary>Free driver inventory for Windows, including the updates hidden under optional updates</summary>
+    <releaseNotes>https://github.com/techygeekshome/DriverGeek/releases/tag/v1.1.1</releaseNotes>
+    <copyright>Copyright (c) 2026 TechyGeeksHome</copyright>
+    <tags>drivergeek drivers driver-inventory windows-update hardware windows foss</tags>
+    <projectSourceUrl>https://github.com/techygeekshome/DriverGeek</projectSourceUrl>
+    <packageSourceUrl>https://github.com/techygeekshome/DriverGeek</packageSourceUrl>
+    <docsUrl>https://techygeekshome.info/drivergeek/</docsUrl>
+    <bugTrackerUrl>https://github.com/techygeekshome/DriverGeek/issues</bugTrackerUrl>
+  </metadata>
+</package>
