@@ -1,4 +1,4 @@
-<Window xmlns="https://github.com/avaloniaui"
+﻿<Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:DriverGeek.ViewModels"
         xmlns:views="using:DriverGeek.Views"
@@ -10,42 +10,7 @@
         Background="{StaticResource Navy}">
 
   <Window.Styles>
-    <Style Selector="TextBlock">
-      <Setter Property="Foreground" Value="{StaticResource Txt}" />
-    </Style>
-    <Style Selector="Button.nav">
-      <Setter Property="HorizontalAlignment" Value="Stretch" />
-      <Setter Property="HorizontalContentAlignment" Value="Left" />
-      <Setter Property="Background" Value="Transparent" />
-      <Setter Property="BorderThickness" Value="0" />
-      <Setter Property="CornerRadius" Value="7" />
-      <Setter Property="Padding" Value="10,9" />
-      <Setter Property="Foreground" Value="{StaticResource Txt2}" />
-    </Style>
-    <Style Selector="Button.nav:pointerover /template/ ContentPresenter">
-      <Setter Property="Background" Value="{StaticResource PanelHover}" />
-    </Style>
-    <Style Selector="Button.nav.on /template/ ContentPresenter">
-      <Setter Property="Background" Value="{StaticResource Selected}" />
-    </Style>
-    <Style Selector="Button.nav.on">
-      <Setter Property="Foreground" Value="{StaticResource Txt}" />
-      <Setter Property="FontWeight" Value="SemiBold" />
-    </Style>
-    <Style Selector="Button.ghost">
-      <Setter Property="Background" Value="{StaticResource Panel}" />
-      <Setter Property="BorderBrush" Value="{StaticResource Line}" />
-      <Setter Property="BorderThickness" Value="1" />
-      <Setter Property="CornerRadius" Value="7" />
-      <Setter Property="Foreground" Value="{StaticResource Txt2}" />
-      <Setter Property="HorizontalAlignment" Value="Stretch" />
-      <Setter Property="HorizontalContentAlignment" Value="Center" />
-      <Setter Property="Padding" Value="10,7" />
-      <Setter Property="FontSize" Value="11" />
-    </Style>
-    <Style Selector="Button.ghost:pointerover /template/ ContentPresenter">
-      <Setter Property="Background" Value="{StaticResource PanelHover}" />
-    </Style>
+    <StyleInclude Source="avares://DriverGeek/Themes/Shell.axaml" />
   </Window.Styles>
 
   <Grid ColumnDefinitions="212,*">

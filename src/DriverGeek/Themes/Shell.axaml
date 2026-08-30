@@ -1,0 +1,53 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <!--
+    DriverGeek's control styles. These were inline in Views/MainWindow.axaml; they are here so the
+    app carries the same Themes/Dark.axaml + Themes/Shell.axaml pair as DiskGeek and PDFGeek,
+    and so a change to a nav item or a ghost button is made in one place.
+
+    Application.Styles is built before Application.Resources, so a StaticResource lookup at app
+    level cannot see the palette. This file is included at *window* scope, exactly where the
+    block used to sit, which both keeps the lookup working and leaves the styles applying to
+    the same controls as before - it is a move, not a change of scope.
+  -->
+
+  <Style Selector="TextBlock">
+    <Setter Property="Foreground" Value="{StaticResource Txt}" />
+  </Style>
+  <Style Selector="Button.nav">
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="HorizontalContentAlignment" Value="Left" />
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="CornerRadius" Value="7" />
+    <Setter Property="Padding" Value="10,9" />
+    <Setter Property="Foreground" Value="{StaticResource Txt2}" />
+  </Style>
+  <Style Selector="Button.nav:pointerover /template/ ContentPresenter">
+    <Setter Property="Background" Value="{StaticResource PanelHover}" />
+  </Style>
+  <Style Selector="Button.nav.on /template/ ContentPresenter">
+    <Setter Property="Background" Value="{StaticResource Selected}" />
+  </Style>
+  <Style Selector="Button.nav.on">
+    <Setter Property="Foreground" Value="{StaticResource Txt}" />
+    <Setter Property="FontWeight" Value="SemiBold" />
+  </Style>
+  <Style Selector="Button.ghost">
+    <Setter Property="Background" Value="{StaticResource Panel}" />
+    <Setter Property="BorderBrush" Value="{StaticResource Line}" />
+    <Setter Property="BorderThickness" Value="1" />
+    <Setter Property="CornerRadius" Value="7" />
+    <Setter Property="Foreground" Value="{StaticResource Txt2}" />
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="Padding" Value="10,7" />
+    <Setter Property="FontSize" Value="11" />
+  </Style>
+  <Style Selector="Button.ghost:pointerover /template/ ContentPresenter">
+    <Setter Property="Background" Value="{StaticResource PanelHover}" />
+  </Style>
+  
+
+</Styles>
