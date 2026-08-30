@@ -41,8 +41,8 @@
     <Program_OS_Support>Win10,Win11,WinServer</Program_OS_Support>
     <Program_Language>English</Program_Language>
     <Program_Change_Info>See the GitHub releases page for the current changelog.</Program_Change_Info>
-    <Program_Specific_Category>Multimedia & Design::Other</Program_Specific_Category>
-    <Program_Category_Class>System</Program_Category_Class>
+    <Program_Specific_Category>System Utilities::System Maintenance</Program_Specific_Category>
+    <Program_Category_Class>System Utilities</Program_Category_Class>
     <Program_System_Requirements>Windows 10 version 1809 or later, 64-bit. Nothing else to install.</Program_System_Requirements>
     <File_Info>
       <File_Size_Bytes>30619271</File_Size_Bytes>
