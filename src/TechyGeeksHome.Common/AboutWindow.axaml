@@ -1,10 +1,15 @@
+<!--
+  Shared About window for the Geek range. The colours are the house tokens from each app's
+  Themes/Dark.axaml, written as literals on purpose: this is a library, and a StaticResource
+  the host has not defined is a hard failure at load. If Dark.axaml changes, change these too.
+-->
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         x:Class="TechyGeeksHome.Common.AboutWindow"
         Width="520" SizeToContent="Height"
         CanResize="False"
         WindowStartupLocation="CenterOwner"
-        Background="#0b0b0d"
+        Background="#FF0A0D16"
         Title="About">
 
   <!-- Self-contained styling so this window looks right dropped into any TGH app -->
@@ -12,22 +17,22 @@
     <Style Selector="TextBlock.name">
       <Setter Property="FontSize" Value="26" />
       <Setter Property="FontWeight" Value="Bold" />
-      <Setter Property="Foreground" Value="#e5e7eb" />
+      <Setter Property="Foreground" Value="#FFFFFFFF" />
     </Style>
     <Style Selector="TextBlock.tag">
       <Setter Property="FontSize" Value="13" />
-      <Setter Property="Foreground" Value="#38bdf8" />
+      <Setter Property="Foreground" Value="#FF6BA8F0" />
       <Setter Property="TextWrapping" Value="Wrap" />
     </Style>
     <Style Selector="TextBlock.body">
       <Setter Property="FontSize" Value="12" />
-      <Setter Property="Foreground" Value="#9ca3af" />
+      <Setter Property="Foreground" Value="#FF7C8699" />
       <Setter Property="TextWrapping" Value="Wrap" />
     </Style>
     <Style Selector="Button.link">
       <Setter Property="Background" Value="Transparent" />
       <Setter Property="BorderThickness" Value="0" />
-      <Setter Property="Foreground" Value="#38bdf8" />
+      <Setter Property="Foreground" Value="#FF6BA8F0" />
       <Setter Property="Padding" Value="0,3" />
       <Setter Property="FontSize" Value="12" />
       <Setter Property="Cursor" Value="Hand" />
@@ -35,14 +40,14 @@
     </Style>
     <Style Selector="Button.link:pointerover /template/ ContentPresenter">
       <Setter Property="Background" Value="Transparent" />
-      <Setter Property="TextBlock.Foreground" Value="#0ea5e9" />
+      <Setter Property="TextBlock.Foreground" Value="#FF3A85E6" />
     </Style>
     <Style Selector="Button.kofi">
       <Setter Property="Background" Value="#ff5e5b" />
       <Setter Property="Foreground" Value="#ffffff" />
       <Setter Property="FontWeight" Value="SemiBold" />
       <Setter Property="Padding" Value="16,9" />
-      <Setter Property="CornerRadius" Value="8" />
+      <Setter Property="CornerRadius" Value="7" />
     </Style>
     <Style Selector="Button.kofi:pointerover /template/ ContentPresenter">
       <Setter Property="Background" Value="#e54e4b" />
@@ -50,19 +55,19 @@
     </Style>
 
     <Style Selector="Button.accent">
-      <Setter Property="Background" Value="#38bdf8" />
-      <Setter Property="Foreground" Value="#0b0b0d" />
+      <Setter Property="Background" Value="#FF2E78D8" />
+      <Setter Property="Foreground" Value="#FFFFFFFF" />
       <Setter Property="FontWeight" Value="SemiBold" />
       <Setter Property="Padding" Value="16,9" />
-      <Setter Property="CornerRadius" Value="8" />
+      <Setter Property="CornerRadius" Value="7" />
     </Style>
     <Style Selector="Button.ghost">
-      <Setter Property="Background" Value="#1a1a1e" />
-      <Setter Property="Foreground" Value="#e5e7eb" />
-      <Setter Property="BorderBrush" Value="#1f1f22" />
+      <Setter Property="Background" Value="#FF1B2333" />
+      <Setter Property="Foreground" Value="#FFFFFFFF" />
+      <Setter Property="BorderBrush" Value="#FF2A3549" />
       <Setter Property="BorderThickness" Value="1" />
       <Setter Property="Padding" Value="16,9" />
-      <Setter Property="CornerRadius" Value="8" />
+      <Setter Property="CornerRadius" Value="7" />
     </Style>
   </Window.Styles>
 
@@ -70,10 +75,10 @@
 
     <StackPanel Orientation="Horizontal" Spacing="16">
       <Panel Width="64" Height="64">
-        <Border x:Name="MonogramBadge" CornerRadius="16" Background="#0A0D16"
-                BorderBrush="#38bdf8" BorderThickness="1">
+        <Border x:Name="MonogramBadge" CornerRadius="7" Background="#FF0A0D16"
+                BorderBrush="#FF2E78D8" BorderThickness="1">
           <TextBlock x:Name="Monogram" Text="TG" FontSize="24" FontWeight="Bold"
-                     Foreground="#38bdf8" HorizontalAlignment="Center"
+                     Foreground="#FF6BA8F0" HorizontalAlignment="Center"
                      VerticalAlignment="Center" />
         </Border>
         <Image x:Name="IconImage" Width="64" Height="64" IsVisible="False" />
@@ -85,16 +90,16 @@
       </StackPanel>
     </StackPanel>
 
-    <Border Background="#111113" BorderBrush="#1f1f22" BorderThickness="1"
-            CornerRadius="16" Padding="18">
+    <Border Background="#FF111725" BorderBrush="#FF242D42" BorderThickness="1"
+            CornerRadius="7" Padding="18">
       <StackPanel Spacing="10">
         <TextBlock x:Name="AppDescription" Classes="body" Text="Description" />
         <TextBlock x:Name="LicenceText" Classes="body" Text="Licence" />
       </StackPanel>
     </Border>
 
-    <Border Background="#111113" BorderBrush="#1f1f22" BorderThickness="1"
-            CornerRadius="16" Padding="18">
+    <Border Background="#FF111725" BorderBrush="#FF242D42" BorderThickness="1"
+            CornerRadius="7" Padding="18">
       <StackPanel Spacing="8">
         <UniformGrid Columns="2" >
           <Button x:Name="WebsiteButton" Classes="ghost" Content="Website" Margin="0,0,4,0"
@@ -113,11 +118,11 @@
       </StackPanel>
     </Border>
 
-    <Border Background="#111113" BorderBrush="#1f1f22" BorderThickness="1"
-            CornerRadius="16" Padding="18">
+    <Border Background="#FF111725" BorderBrush="#FF242D42" BorderThickness="1"
+            CornerRadius="7" Padding="18">
       <StackPanel Spacing="8">
         <TextBlock Classes="body" Text="More from TechyGeeksHome"
-                   FontWeight="SemiBold" Foreground="#e5e7eb" Margin="0,0,0,2" />
+                   FontWeight="SemiBold" Foreground="#FFFFFFFF" Margin="0,0,0,2" />
 
         <!--
           One button per app, filled in by BuildFamilyList. Two columns, and the GitHub
