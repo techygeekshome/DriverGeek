@@ -49,8 +49,8 @@ VersionInfoCompany={#AppPublisher}
 VersionInfoDescription={#AppName} Setup
 
 WizardStyle=modern
-UninstallDisplayIcon={app}\{#AppExeName}
 UninstallDisplayName={#AppName} {#AppVersion}
+UninstallDisplayIcon={app}\{#AppExeName}
 LicenseFile=..\LICENSE
 SetupIconFile=..\icons\drivergeek.ico
 
