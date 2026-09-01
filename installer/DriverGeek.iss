@@ -17,9 +17,19 @@
 #define FirstYear      "2026"
 #define CurrentYear    GetDateTimeString('yyyy', '', '')
 
+; From 2027 onward show a range rather than only the current year, so the copyright reads
+; 2026-2027 and so on, and never the odd looking 2026-2026.
+#if CurrentYear == FirstYear
+  #define CopyrightYears FirstYear
+#else
+  #define CopyrightYears FirstYear + "-" + CurrentYear
+#endif
+
 ; Read straight off the executable that is about to be packaged, so the installer can never
 ; claim a different version from the thing inside it.
 #define AppVersion GetVersionNumbersString(AppSourceDir + "\" + AppExeName)
+
+#include "DriverGeek_languages.iss"
 
 [Setup]
 ; NEVER regenerate this. Windows uses the AppId to tell an upgrade from a second parallel
@@ -32,7 +42,7 @@ AppPublisher={#AppPublisher}
 AppPublisherURL={#AppURL}
 AppSupportURL={#AppSupportURL}
 AppUpdatesURL={#AppUpdatesURL}
-AppCopyright=Copyright (C) {#FirstYear}-{#CurrentYear} {#AppPublisher}
+AppCopyright=Copyright (C) {#CopyrightYears} {#AppPublisher}
 
 VersionInfoVersion={#AppVersion}
 VersionInfoCompany={#AppPublisher}
@@ -66,16 +76,17 @@ ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
 MinVersion=10.0
 
-[Languages]
-Name: "english"; MessagesFile: "compiler:Default.isl"
 
-[CustomMessages]
-english.CreateDesktopShortcut=Create a &desktop shortcut
-english.LaunchApp=Open {#AppName}
-english.WebSite={#AppName} on the web
+
+; With more than one language available the wizard has to ask, and it has to ask every time
+; rather than silently reusing whatever was picked last time on a shared machine. Detection
+; starts from the Windows UI language, so most people never think about it.
+ShowLanguageDialog=yes
+UsePreviousLanguage=no
+LanguageDetectionMethod=uilanguage
 
 [Tasks]
-Name: "desktopicon"; Description: "{cm:CreateDesktopShortcut}"; GroupDescription: "Shortcuts:"
+Name: "desktopicon"; Description: "{cm:CreateDesktopShortcut}"; GroupDescription: "{cm:Shortcuts}"
 
 [Files]
 Source: "{#AppSourceDir}\{#AppExeName}"; DestDir: "{app}"; Flags: ignoreversion
