@@ -5,11 +5,11 @@
 //
 //  The Geek range is spread across four stacks - Avalonia (PDFGeek, DiskGeek,
 //  CutGeek, TranscribeGeek, SoundGeek, AuthGeek), WPF (AppGeek), Go + WebView2
-//  (Ultimate Settings Panel) and Python (ReelGeek, ShortGeek) - so there is no
-//  single assembly every app can reference. This file is therefore carried in
-//  each .NET repo, byte-identical apart from the namespace on the line below.
-//  It contains no framework types precisely so that stays true. ReelGeek and
-//  ShortGeek are not .NET and carry the same list in their own source.
+//  (Ultimate Settings Panel) and Python (ReelGeek, ShortGeek, LingoGeek) - so
+//  there is no single assembly every app can reference. This file is therefore
+//  carried in each .NET repo, byte-identical apart from the namespace on the
+//  line below. It contains no framework types precisely so that stays true.
+//  The Python apps are not .NET and carry the same list in their own source.
 //
 //  WHEN THE RANGE CHANGES: edit the canonical copy, then copy this file into
 //  every other app repo. Do not edit one in isolation - that is exactly how the
@@ -85,6 +85,12 @@ public static class Family
             "Lists every driver on the machine and the updates Windows Update files under Optional and never offers.",
             "https://techygeekshome.info/drivergeek/",
             "DriverGeek"),
+
+        new FamilyApp(
+            "LingoGeek",
+            "Translates Word documents, PDFs, subtitles and plain text on your own machine, with no account and no limit.",
+            "https://techygeekshome.info/lingogeek/",
+            "LingoGeek"),
 
         new FamilyApp(
             "PDFGeek",
