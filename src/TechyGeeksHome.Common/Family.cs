@@ -1,13 +1,15 @@
-// -----------------------------------------------------------------------------
+﻿// -----------------------------------------------------------------------------
 //  THE TECHYGEEKSHOME FAMILY LIST
 //
 //  Canonical copy: PDFGeek repo, src/TechyGeeksHome.Common/Family.cs
 //
-//  The Geek range is spread across three UI frameworks - Avalonia (PDFGeek,
-//  DiskGeek), WPF (AppGeek) and Go + WebView2 (Ultimate Settings Panel) - so
-//  there is no single assembly every app can reference. This file is therefore
-//  carried in each repo, byte-identical apart from the namespace on the line
-//  below. It contains no framework types precisely so that stays true.
+//  The Geek range is spread across four stacks - Avalonia (PDFGeek, DiskGeek,
+//  CutGeek, TranscribeGeek, SoundGeek, AuthGeek), WPF (AppGeek), Go + WebView2
+//  (Ultimate Settings Panel) and Python (ReelGeek, ShortGeek) - so there is no
+//  single assembly every app can reference. This file is therefore carried in
+//  each .NET repo, byte-identical apart from the namespace on the line below.
+//  It contains no framework types precisely so that stays true. ReelGeek and
+//  ShortGeek are not .NET and carry the same list in their own source.
 //
 //  WHEN THE RANGE CHANGES: edit the canonical copy, then copy this file into
 //  every other app repo. Do not edit one in isolation - that is exactly how the
@@ -55,10 +57,22 @@ public static class Family
             "AppGeek"),
 
         new FamilyApp(
+            "AuthGeek",
+            "Your two-factor codes on your own computer, in one encrypted file.",
+            "https://techygeekshome.info/authgeek/",
+            "AuthGeek"),
+
+        new FamilyApp(
             "CleanGeek",
             "Clears the caches, temporary files and update leftovers Windows keeps, and shows what is installed and what starts up.",
             "https://techygeekshome.info/cleangeek/",
             "CleanGeek"),
+
+        new FamilyApp(
+            "CutGeek",
+            "Cuts the background out of a photo on your own machine, at full resolution, with nothing to buy.",
+            "https://techygeekshome.info/cutgeek/",
+            "CutGeek"),
 
         new FamilyApp(
             "DiskGeek",
@@ -77,6 +91,30 @@ public static class Family
             "Merge, split, rotate, compress and convert PDFs entirely on your own machine.",
             "https://techygeekshome.info/pdfgeek/",
             "PDFGeek"),
+
+        new FamilyApp(
+            "ReelGeek",
+            "Turns a folder of photos into a vertical edit cut to a beat grid, with movement on every shot.",
+            "https://techygeekshome.info/reelgeek/",
+            "ReelGeek"),
+
+        new FamilyApp(
+            "ShortGeek",
+            "Turns one of your guides, an RSS feed or a bare idea into a narrated, captioned vertical short.",
+            "https://techygeekshome.info/shortgeek/",
+            "ShortGeek"),
+
+        new FamilyApp(
+            "SoundGeek",
+            "Cleans up a recording and writes the copy beside it: background noise gone, mains hum gone, levels evened out.",
+            "https://techygeekshome.info/soundgeek/",
+            "SoundGeek"),
+
+        new FamilyApp(
+            "TranscribeGeek",
+            "Turns audio and video into a transcript and subtitles, entirely offline.",
+            "https://techygeekshome.info/transcribegeek/",
+            "TranscribeGeek"),
 
         new FamilyApp(
             "Ultimate Settings Panel",
