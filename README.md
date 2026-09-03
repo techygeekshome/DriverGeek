@@ -19,6 +19,14 @@
 
 ---
 
+## 🎬 See it in action
+
+[![DriverGeek demo video](https://img.youtube.com/vi/S4RGmR1mYkA/maxresdefault.jpg)](https://www.youtube.com/watch?v=S4RGmR1mYkA)
+
+The updates Windows Update files under Optional, in under a minute.
+
+---
+
 Windows already knows about driver updates you have never been offered. They sit under
 Settings → Windows Update → Advanced options → **Optional updates**, four clicks deep, and
 almost nobody looks there. DriverGeek lists every device on the machine with the driver it is
