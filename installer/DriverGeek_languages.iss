@@ -14,12 +14,10 @@ Name: "italian"; MessagesFile: "compiler:Languages\Italian.isl"
 [CustomMessages]
 english.CreateDesktopShortcut=Create a &desktop shortcut
 english.Shortcuts=Shortcuts:
-english.LaunchApp=Open {#AppName}
 english.WebSite={#AppName} on the web
 
 italian.CreateDesktopShortcut=Crea collegamento programma sul &desktop
 italian.Shortcuts=Collegamenti:
-italian.LaunchApp=Apri {#AppName}
 italian.WebSite=Sito web {#AppName}
 italian.CreateQuickLaunchIcon=Crea collegamento programma nella &barra 'Avvio veloce'
 italian.NameAndVersion=%1 %2
