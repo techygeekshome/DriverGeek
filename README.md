@@ -168,7 +168,7 @@ a distributed modification must publish its source under the same licence.
 
 Free for everyone, including commercial use.
 
-© 2026 TechyGeeksHome | Andrew Armstrong.
+© 2026 TechyGeeksHome.
 
 ---
 
