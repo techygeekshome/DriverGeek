@@ -26,8 +26,9 @@
 #endif
 
 ; Read straight off the executable that is about to be packaged, so the installer can never
-; claim a different version from the thing inside it.
-#define AppVersion GetVersionNumbersString(AppSourceDir + "\" + AppExeName)
+; claim a different version from the thing inside it. Only the first three parts are used, so the
+; wizard and Apps and Features show 1.2.3 rather than the 1.2.3.0 the file version carries.
+#define AppVersion() GetVersionComponents(AppSourceDir + "\" + AppExeName, Local[0], Local[1], Local[2], Local[3]), str(Local[0]) + "." + str(Local[1]) + "." + str(Local[2])
 
 #include "DriverGeek_languages.iss"
 
@@ -51,7 +52,7 @@ VersionInfoDescription={#AppName} Setup
 WizardStyle=modern
 UninstallDisplayName={#AppName} {#AppVersion}
 UninstallDisplayIcon={app}\{#AppExeName}
-LicenseFile=..\LICENSE
+LicenseFile=..\LICENSE.rtf
 SetupIconFile=..\icons\drivergeek.ico
 
 OutputDir=..\dist
